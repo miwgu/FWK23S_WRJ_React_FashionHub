@@ -99,7 +99,7 @@ const MyNav=()=> {
     
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <IconButton
+          {/* <IconButton
             size="large"
             edge="start"
             color="inherit"
@@ -107,7 +107,7 @@ const MyNav=()=> {
             sx={{ mr: 2 }}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <Typography
             variant="h6"
             noWrap
@@ -180,7 +180,7 @@ const MyNav=()=> {
               <AccountCircleIcon  />
             </IconButton>
             )}
-        {loggedIn &&(
+        {/* {loggedIn &&(
                 <IconButton         
             size="large"
             aria-label="account of current user"
@@ -189,10 +189,10 @@ const MyNav=()=> {
             >
             welcome, {user.username}
             </IconButton>
-     )}
+     )} */}
           </Box>
         
-
+        
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -227,11 +227,11 @@ const MyNav=()=> {
               ))}
             </Menu>
           </Box>
-
+          {loggedIn &&(
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt={user.username} src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
             <Menu
@@ -257,6 +257,7 @@ const MyNav=()=> {
               ))}
             </Menu>
           </Box>
+          )}
         </Toolbar>
       </Container>
     </AppBar>
