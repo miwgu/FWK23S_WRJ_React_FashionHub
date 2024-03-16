@@ -84,7 +84,7 @@ const LoginModal = ({ isOpen, onClose }) => {
         </Grid>
 
         <Grid item>
-        <Button variant="contained" color="primary" onClick={handleLogin}>
+        <Button variant="contained" color="primary" onClick={handleLogin} fullWidth style={{ width: '300px' }} >
           Login
         </Button>
         </Grid>
