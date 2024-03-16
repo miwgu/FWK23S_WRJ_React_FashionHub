@@ -20,6 +20,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../AuthContext';
 import LoginModal from '../LoginModal';
+import Logout from '../Logout';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -251,6 +252,8 @@ const MyNav=()=> {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
+                setting === 'Logout' ?
+                <Logout key={setting} />:
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
