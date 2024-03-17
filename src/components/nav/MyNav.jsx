@@ -21,6 +21,8 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../AuthContext';
 import LoginModal from '../LoginModal';
 import Logout from '../Logout';
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -65,11 +67,16 @@ const Search = styled('div')(({ theme }) => ({
     },
   }));
 
-const MyNav=()=> {
+const MyNav=({onSearch})=> {
   const { loggedIn, user } = useContext(AuthContext);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] =useState('');
+
+  const handleSearch = () => {
+    onSearch(searchTerm);
+  }
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -148,6 +155,13 @@ const MyNav=()=> {
               <StyledInputBase
                 placeholder="Search…"
                 inputProps={{ 'aria-label': 'search' }}
+                onChange={(e)=>setSearchTerm(e.target.value)}
+                onBlur={handleSearch}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                        handleSearch();
+                     }
+                }}
               />
             </Search>
 
@@ -165,7 +179,7 @@ const MyNav=()=> {
               aria-label="show cart"
               color="inherit"
             >
-              <AddShoppingCartIcon />
+              <ShoppingBagIcon />
             </IconButton>
 
         {!loggedIn && (

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import React, { useEffect, useState } from 'react'
-import { Container, Card, Grid } from '@mui/material';
+import { Box, Container, Card, Grid, Button } from '@mui/material';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
@@ -16,21 +16,21 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 //import { FaRegHeart } from "react-icons/fa";
 //import { FaHeart } from "react-icons/fa6";
 
-const Home = () => {
+const Home = ({searchTerm}) => {
     
     //const storedFavorites = JSON.parse(localStorage.getItem('favorites'))||[];
     const [data, setData]= useState(null);
     const [loading, setLoading]= useState(true);
     const [error, setError]= useState(null);
-    //const [favoritesData, setFavoritesData] = useState(favorites);
+    //const [fahandleAddtobagvoritesData, setFavoritesData] = useState(favorites);
     //const [hoveredMealId, setHoveredMealId] = useState(null);
 
 
-    const [expanded, setExpanded] = React.useState(false);
+   const handleAddtobag =() =>{
+     console.log("Need to Fix")
+   }
 
-    const handleExpandClick = () => {
-    setExpanded(!expanded);
-    };
+
 
 
 /* move to App.jsx
@@ -58,7 +58,7 @@ const Home = () => {
 
     useEffect(()=>{
         axios
-        .get(`https://www.themealdb.com/api/json/v1/1/search.php?s`)
+        .get(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchTerm}`)
         .then((response)=>{
 
             if(response.status >= 200 && response.status < 300){
@@ -103,12 +103,13 @@ const Home = () => {
         //Load favorites from localStrage on component mount
         //const storedFavorites = JSON.parse(localStorage.getItem('favorites'))||[];
         //setFavoritesData(favoritesData);
-    }, []);
+    }, [searchTerm]);
 
 
 
 
   return (
+    <Box pt={6}>
     <Container >
         {loading && <div>A moment please ...</div>}
         {error && (
@@ -129,10 +130,10 @@ const Home = () => {
                 >
                 {/* <CardHeader
                     title= {strMeal} /> */}
-
+              <Link to ={`/product-details/${idMeal}`} style={{textDecoration: 'none'}}>
                 <CardMedia
                     component = "img"
-                    height="194"
+                    height="300"
                     image={strMealThumb}
                     alt="Paella dish"
                    />
@@ -141,7 +142,16 @@ const Home = () => {
                   <Typography variant="body2" color="text.secondary">
                   {strMeal}
                   </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                   100kr
+                  </Typography>
                 </CardContent>
+                </Link>
+                  <Button variant="contained" color="primary" onClick={handleAddtobag} fullWidth>
+                  Add to bag
+                 </Button>
+                
+
                 <CardActions disableSpacing>
                   <IconButton aria-label="add to favorites">
                     <FavoriteIcon />
@@ -164,6 +174,7 @@ const Home = () => {
 
         </Grid>
     </Container>
+  </Box>
   )
 }
 
