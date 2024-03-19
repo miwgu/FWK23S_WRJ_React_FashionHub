@@ -175,6 +175,8 @@ const MyNav=({onSearch})=> {
             </IconButton> */}
 
             <IconButton
+              component={Link}
+              to="/cart"
               size="large"
               aria-label="show cart"
               color="inherit"

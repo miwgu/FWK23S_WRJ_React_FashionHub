@@ -7,15 +7,12 @@ import { useParams } from 'react-router-dom'
 import { Container, Grid, Box, Button } from '@mui/material';
 
 
-const Details = () => {
+const Details = ({addProduct}) => {
    const {id} =useParams();
+   
    const [details, setDetails] = useState(null);
    const [loading, setLoading]= useState(true);
    const [error, setError]= useState(null);
-
-   const handleAddtobag =() =>{
-    console.log("Need to Fix")
-  }
 
    useEffect(()=>{
     
@@ -64,6 +61,7 @@ const Details = () => {
 */
    },[id]);
 
+
   return (
    <Box pt={6}>
     <Container >
@@ -75,7 +73,7 @@ const Details = () => {
         <Box>
           <img 
           src={details.strMealThumb} 
-          rounded 
+          
           className="img-fluid" 
           style={{ maxWidth: '3500px', maxHeight: '350px' }}  
           />
@@ -87,13 +85,13 @@ const Details = () => {
           <h1>{details.strMeal}</h1>
           <p style={{ textAlign: 'left' }}>{details.strInstructions}</p>
             <div>
-              <Button variant="contained" color="primary" onClick={handleAddtobag} fullWidth>
+              <Button variant="contained" color="primary" 
+                       onClick={()=>addProduct(details)} fullWidth>
                   Add to bag
               </Button>
             </div>
           </Box>
           </Grid>
-
         </Grid>
       )}
     </Container>
