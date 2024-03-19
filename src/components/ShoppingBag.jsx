@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Card, Container, Grid, MenuItem, Select, Typography } from '@mui/material';
+import { Box, Button, IconButton, Card, Container, Grid, MenuItem, Select, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
+import { Delete } from '@mui/icons-material';
 
 const ShoppingBag = ({ products, deleteProduct }) => {
     const navigate = useNavigate();
@@ -42,62 +43,68 @@ const ShoppingBag = ({ products, deleteProduct }) => {
 
     const price = 100;
 
+    const totalAmount = products.reduce((total, product) => total + (price * quantities[product.idMeal]), 0);
+
     return (
         <Container>
             {!products.length ? (
                 <>
-                    <h3>Your shopping bag is empty</h3>
-                    <Button variant="contained" color="primary" onClick={handleGotoHome} fullWidth style={{ width: '300px' }}>Check products!</Button>
+                <Grid container spacing={2} justifyContent="center" alignItems="center" style={{ minHeight: '70vh' }}>
+                    <Grid item xs={12} textAlign="center">
+                        <Typography component="div" variant="h5">Your shopping bag is empty</Typography>
+                        <Button variant="contained" color="primary" onClick={handleGotoHome} fullWidth style={{ width: '300px', marginTop: '20px' }}>Check products!</Button>
+                    </Grid>
+                </Grid>
                 </>
             ) : (
                 <>
-                    <h3>Your shopping bag</h3>
-                    <Grid>
-                        <Grid item xs={6} md={8}>
-                            <Box>
-                                {products.map((product) => (
-                                    <Card
-                                        key={product.idMeal}
-                                        sx={{ display: 'flex' }}>
-                                        <CardMedia
-                                            component="img"
-                                            sx={{ width: 151 }}
-                                            image={product.strMealThumb}
-                                            alt={product.strMeal}
-                                        />
-                                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                            <CardContent sx={{ flex: '1 0 auto' }}>
-                                                <Typography component="div" variant="h5">
-                                                    {product.strMeal}
-                                                </Typography>
-                                                <p>{price}{" kr"}</p>
-                                                <Select
-                                                    value={quantities[product.idMeal] || 1}
-                                                    onChange={(e) => handleChangeQuantity(product.idMeal, e.target.value)}
-                                                    fullWidth
-                                                >
-                                                    {[...Array(20).keys()].map((num) => (
-                                                        <MenuItem key={num + 1} value={num + 1}>
-                                                            {num + 1}
-                                                        </MenuItem>
-                                                    ))}
-                                                </Select>
-                                            </CardContent>
+        
+                        <Typography justifyContent="center" component="div" variant="h5">Your shopping bag </Typography>
+
+                    <Grid container spacing ={2}>
+                        <Grid item xs={8}>
+                            {products.map((product) => (
+                                <Card key={product.idMeal} sx={{ marginBottom: '10px', display: 'flex' }}>
+                                    <CardMedia
+                                        component="img"
+                                        sx={{ width: 151 }}
+                                        image={product.strMealThumb}
+                                        alt={product.strMeal}
+                                    />
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1, marginLeft: '10px' }}>
+                                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                                            <Typography variant="h5" component="div">{product.strMeal}</Typography>
+                                            <IconButton aria-label="delete" onClick={() => deleteProduct(product.idMeal)}>
+                                                <Delete />
+                                            </IconButton>
                                         </Box>
+                                        <p>{price} kr</p>
                                         <Box>
-                                               <Typography component="div" variant="h9">
-                                               Total amount:
-                                                </Typography>
-                                            <p> {price*quantities[product.idMeal]}{" kr"} </p>
+                                            <Typography component="div" variant="h9">
+                                                Total amount: {price * quantities[product.idMeal]} 
+                                            </Typography>
                                         </Box>
-                                    </Card>
-                                ))}
-                            </Box>
+                                        <Select
+                                            value={quantities[product.idMeal] || 1}
+                                            onChange={(e) => handleChangeQuantity(product.idMeal, e.target.value)}
+                                            fullWidth
+                                        >
+                                            {[...Array(20).keys()].map((num) => (
+                                                <MenuItem key={num + 1} value={num + 1}>
+                                                    {num + 1}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </Box>
+                                </Card>
+                            ))}
                         </Grid>
-                        <Grid item xs={6} md={4}>
+                        <Grid item xs={4}>
                             <Box>
-                                <h1>Total</h1>
-                                <p style={{ textAlign: 'left' }}>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>
+                                
+                                <Typography variant="h5">
+                                    Total {totalAmount} kr
+                                </Typography>
                                 <div>
                                     <Button variant="contained" color="primary" fullWidth>
                                         Checkout
