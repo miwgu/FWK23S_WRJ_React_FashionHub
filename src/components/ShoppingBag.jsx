@@ -1,124 +1,115 @@
+import React, { useEffect, useState } from 'react';
 import { Box, Button, Card, Container, Grid, MenuItem, Select, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import React, { useEffect, useState } from 'react'
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-//import { AuthContext } from './AuthContext';
 
-
-const ShoppingBag = ({products, deleteProduct}) => {
-
-    //const { login, error } = useContext(AuthContext);
-    const [shoppingBagData, setShoppingBagData] =useState(products);
-    const [quantities, setQuantities] = useState({}); //Object to tract quantities
+const ShoppingBag = ({ products, deleteProduct }) => {
     const navigate = useNavigate();
 
-    const handleGotoHome = () =>{
+    const handleGotoHome = () => {
         navigate('/');
-      };
+    };
 
+    const [quantities, setQuantities] = useState({});
 
-    useEffect (()=>{
-        setShoppingBagData(products || []);
-        initializeQuantities(products);
-      }, [products])
+    useEffect(() => {
+        initializeQuantities();
+    }, [products]);
 
-      //count occurrences of each item ID in the shopping bag
-      /* const countItems =(arr) =>{
-        return arr.reduce((acc, curr)=>{
-          acc[curr.idMeal] =(acc[curr.idMeal] || 0) +1;
-          return acc;
-        }, {});
-      };
-      
-      const itemCounts = countItems(shoppingBagData); */
-      
-      const initializeQuantities = (products) =>{
-        const initQuantities ={};
-        products.forEach((p)=>{
-          initQuantities[p.idMeal]=1; //Default quantity is 1
-        })
-        setQuantities(initQuantities);
-      };
+    const initializeQuantities = () => {
+        const storedProducts = JSON.parse(localStorage.getItem('products')) || [];
+        const quantitiesObject = {};
+        storedProducts.forEach((product) => {
+            quantitiesObject[product.idMeal] = product.quantity || 1;
+        });
+        setQuantities(quantitiesObject);
+    };
 
-      const handleChangeQuantity = (id, quantity) =>{
-         setQuantities({...quantities, [id]: quantity});
-         console.log("Q: ",quantities )
-      };
+    const handleChangeQuantity = (idMeal, quantity) => {
+        const updatedQuantities = { ...quantities, [idMeal]: quantity };
+        setQuantities(updatedQuantities);
 
-      const price =100;
+        const updatedProducts = products.map((product) => {
+            if (product.idMeal === idMeal) {
+                return { ...product, quantity };
+            }
+            return product;
+        });
 
-  return (
-    <>
-    <Container>
-    {!shoppingBagData.length &&
-    <>
-     <h3>Your shoppingbag is empty</h3>
-     <Button variant="contained" color="primary" onClick={handleGotoHome} fullWidth style={{ width: '300px' }} >Check products!</Button>
-    </>
-    }
-    
-    {shoppingBagData.length>0 &&
-    <>
-    <h3>Your shoppingbag</h3>
-    <Grid>
-      <Grid item xs={6} md={8}>
-        <Box>
-        {shoppingBagData.map((pro)=>(
-            <Card 
-                 key={pro.idMeal}
-                 sx={{ display: 'flex' }}>
-            <CardMedia
-            component="img"
-            sx={{ width: 151 }}
-            image={pro.strMealThumb}
-            alt={pro.strMeal}
-            />
-        
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <CardContent sx={{ flex: '1 0 auto' }}>
-              <Typography component="div" variant="h5">
-                 {pro.strMeal}
-              </Typography>
-              <p>{price}{" kr"}</p>
+        localStorage.setItem('products', JSON.stringify(updatedProducts));
+    };
 
-              <Select 
-                   
-                   value={quantities[pro.idMeal]||''} 
-                   onChange={(e)=> handleChangeQuantity(pro.idMeal, e.target.value)}
-                   fullWidth
-              >
-                 {[...Array(20).keys()].map((num) => (
-                      <MenuItem key={num + 1} value={num + 1}>
-                                  {num + 1}
-                      </MenuItem>
-                   ))}
-              </Select>
-              </CardContent>
-            </Box>
-            </Card>
-        ))}
-        </Box>
-       </Grid>
-      <Grid item xs={6} md={4}>
-        <Box>
-        <h1>Total</h1>
-          <p style={{ textAlign: 'left' }}>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>
-            <div>
-              <Button variant="contained" color="primary"  fullWidth>
-                  Checkout
-              </Button>
-            </div>
-        </Box>
-      </Grid>
+    const price = 100;
 
-    </Grid>
+    return (
+        <Container>
+            {!products.length ? (
+                <>
+                    <h3>Your shopping bag is empty</h3>
+                    <Button variant="contained" color="primary" onClick={handleGotoHome} fullWidth style={{ width: '300px' }}>Check products!</Button>
+                </>
+            ) : (
+                <>
+                    <h3>Your shopping bag</h3>
+                    <Grid>
+                        <Grid item xs={6} md={8}>
+                            <Box>
+                                {products.map((product) => (
+                                    <Card
+                                        key={product.idMeal}
+                                        sx={{ display: 'flex' }}>
+                                        <CardMedia
+                                            component="img"
+                                            sx={{ width: 151 }}
+                                            image={product.strMealThumb}
+                                            alt={product.strMeal}
+                                        />
+                                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                                            <CardContent sx={{ flex: '1 0 auto' }}>
+                                                <Typography component="div" variant="h5">
+                                                    {product.strMeal}
+                                                </Typography>
+                                                <p>{price}{" kr"}</p>
+                                                <Select
+                                                    value={quantities[product.idMeal] || 1}
+                                                    onChange={(e) => handleChangeQuantity(product.idMeal, e.target.value)}
+                                                    fullWidth
+                                                >
+                                                    {[...Array(20).keys()].map((num) => (
+                                                        <MenuItem key={num + 1} value={num + 1}>
+                                                            {num + 1}
+                                                        </MenuItem>
+                                                    ))}
+                                                </Select>
+                                            </CardContent>
+                                        </Box>
+                                        <Box>
+                                               <Typography component="div" variant="h9">
+                                               Total amount:
+                                                </Typography>
+                                            <p> {price*quantities[product.idMeal]}{" kr"} </p>
+                                        </Box>
+                                    </Card>
+                                ))}
+                            </Box>
+                        </Grid>
+                        <Grid item xs={6} md={4}>
+                            <Box>
+                                <h1>Total</h1>
+                                <p style={{ textAlign: 'left' }}>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>
+                                <div>
+                                    <Button variant="contained" color="primary" fullWidth>
+                                        Checkout
+                                    </Button>
+                                </div>
+                            </Box>
+                        </Grid>
+                    </Grid>
+                </>
+            )}
+        </Container>
+    );
+};
 
-    </>
-    }
-    </Container>
-    </>
-  )
-}
-
-export default ShoppingBag
+export default ShoppingBag;

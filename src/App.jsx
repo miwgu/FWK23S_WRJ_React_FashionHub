@@ -14,7 +14,7 @@ function App() {
   const [searchTerm, setSearchTerm]= useState('');
   const navigate = useNavigate();
 
-  const addProduct = (product) =>{
+  /* const addProduct = (product) =>{
     //TODO: Add price
     const{idMeal, strMealThumb, strMeal} = product; 
 
@@ -23,7 +23,45 @@ function App() {
     setProducts(update);
     localStorage.setItem('products', JSON.stringify(update));
 
-  }
+  } */
+
+  
+  const addProduct = (product) => {
+    const { idMeal } = product;
+    const updateProducts = [...products];
+    const existingProductIndex = updateProducts.findIndex((p) => p.idMeal === idMeal);
+
+    console.log("Product:", product);
+    console.log("Existing product index:", existingProductIndex);
+    console.log("Update products:", updateProducts);
+
+    if (existingProductIndex !== -1) {
+        // If the product already exists, update its quantity from local storage
+        const storedProducts = JSON.parse(localStorage.getItem('products')) || [];
+        const storedProduct = storedProducts.find((p) => p.idMeal === idMeal);
+        const quantity = storedProduct ? storedProduct.quantity : 0;
+
+        console.log("Stored product:", storedProduct);
+        console.log("Quantity from local storage:", quantity);
+
+        updateProducts[existingProductIndex].quantity = quantity + 1;
+
+        console.log("Updated quantity:", updateProducts[existingProductIndex].quantity);
+    } else {
+        // If product is new, add it with quantity: 1
+        updateProducts.push({ ...product, quantity: 1 });
+    }
+
+    console.log("Updated products:", updateProducts);
+
+    setProducts(updateProducts);
+    localStorage.setItem('products', JSON.stringify(updateProducts));
+
+    console.log("Products in local storage:", JSON.parse(localStorage.getItem('products')));
+};
+
+    
+
 
   const deleteProduct =(idMeal) =>{
     const updatedPro = products.filter((product) => product.idMeal !== idMeal )
