@@ -58,13 +58,13 @@ const ShoppingBag = ({ products, deleteProduct }) => {
                 </>
             ) : (
                 <>
-        
-                        <Typography justifyContent="center" component="div" variant="h5">Your shopping bag </Typography>
-
+                   <Grid item xs={12} textAlign="center" Container spacing={4}>
+                        <Typography justifyContent="center" component="div" variant="h4">Your shopping bag </Typography>
+                    </Grid>
                     <Grid container spacing ={2}>
                         <Grid item xs={8}>
                             {products.map((product) => (
-                                <Card key={product.idMeal} sx={{ marginBottom: '10px', display: 'flex' }}>
+                                <Card key={product.idMeal} sx={{ marginBottom: '10px', display: 'flex' }} spacing={1}>
                                     <CardMedia
                                         component="img"
                                         sx={{ width: 151 }}

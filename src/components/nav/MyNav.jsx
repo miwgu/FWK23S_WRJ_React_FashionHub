@@ -22,6 +22,7 @@ import { AuthContext } from '../AuthContext';
 import LoginModal from '../LoginModal';
 import Logout from '../Logout';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import Badge from '@mui/material/Badge';
 
 
 const pages = ['Products', 'Pricing', 'Blog'];
@@ -173,7 +174,7 @@ const MyNav=({onSearch})=> {
             >
               <SearchIcon />
             </IconButton> */}
-
+          
             <IconButton
               component={Link}
               to="/cart"
@@ -181,8 +182,11 @@ const MyNav=({onSearch})=> {
               aria-label="show cart"
               color="inherit"
             >
-              <ShoppingBagIcon />
+              <Badge badgeContent={4} color="error">
+                 <ShoppingBagIcon />
+              </Badge>
             </IconButton>
+            
 
         {!loggedIn && (
             <IconButton

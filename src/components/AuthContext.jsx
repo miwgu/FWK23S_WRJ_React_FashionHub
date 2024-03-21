@@ -9,9 +9,8 @@ export const AuthProvider = ({children}) => {
     const [error, setError] = useState(null);
 
     const users = [
-        {username: 'miwa', password: '1234'},
-        {username: 'oskar', password: '1234'},
-        {username: 'lotta', password: '1234'},
+        {email: 'miwa.g@example.com', password: '1234'},
+        {email: 'oskar.g@example.com', password: '2345'},
     ];
 
     const login = (username, password) => {
