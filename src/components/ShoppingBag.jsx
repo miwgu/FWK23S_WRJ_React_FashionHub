@@ -49,7 +49,7 @@ const ShoppingBag = ({ products, deleteProduct }) => {
         });
 
         // Get items from localStrage and update localStrage
-        //By directly updating the products from the local storage and then setting them back, you ensure that the products state in your component reflects the most up-to-date data from the local storage.
+        //By directly updating the products from the local storage and then setting them back, the products state in this component reflects the most up-to-date data from the local storage.
         const storedProducts = JSON.parse(localStorage.getItem('products')) || [];// get itefrom localStrage.m
         const updatedProducts = storedProducts.map((product) => {
             if (product.idMeal === idMeal) {
@@ -61,6 +61,29 @@ const ShoppingBag = ({ products, deleteProduct }) => {
         localStorage.setItem('products', JSON.stringify(updatedProducts));
         console.log("Products in localStorage updated:", updatedProducts);
     };
+
+     
+    const checkout = () => {
+        const loggedInUserData = JSON.parse(localStorage.getItem('loggedInUserData'));
+        const userId = loggedInUserData.id;
+        
+        const shoppingBag = JSON.parse(localStorage.getItem('products')) || [];
+        const order = {
+            userId: userId,
+            products: shoppingBag
+        };
+        let orders = JSON.parse(localStorage.getItem('orders')) || [];
+        orders.push(order);
+        localStorage.setItem('orders', JSON.stringify(orders));
+        // Optionally clear the shopping bag after checkout
+        clearShoppingBag();
+    };
+
+    const clearShoppingBag = () => {
+        localStorage.removeItem('products');
+    };
+
+
 
     const price = 100;
 
@@ -129,7 +152,7 @@ const ShoppingBag = ({ products, deleteProduct }) => {
                                     Total {totalAmount} kr
                                 </Typography>
                                 <div>
-                                    <Button variant="contained" color="primary" fullWidth>
+                                    <Button variant="contained" color="primary" onClick={checkout} fullWidth>
                                         Checkout
                                     </Button>
                                 </div>
