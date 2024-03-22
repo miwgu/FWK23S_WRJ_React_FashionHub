@@ -1,4 +1,6 @@
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
+import mockUserData from './mockData/customer.json';
+
 
 export const AuthContext = createContext(null);
 
@@ -8,16 +10,27 @@ export const AuthProvider = ({children}) => {
     const [loggedIn, setLoggedIn] = useState(false);
     const [error, setError] = useState(null);
 
-    const users = [
+    /* const users = [
         {email: 'miwa.g@example.com', password: '1234'},
         {email: 'oskar.g@example.com', password: '2345'},
-    ];
+    ]; */
 
-    const login = (username, password) => {
-        const user = users.find(u => u.username === username && u.password === password);
+    useEffect(() => {
+        // Check if there is a logged-in user in localStorage on component mount
+        const loggedInUser = JSON.parse(localStorage.getItem('loggedInUserData'));
+        if (loggedInUser) {
+          setUser(loggedInUser);
+          setLoggedIn(true);
+        }
+      }, []);
+
+    const login = (email, password) => {
+        const user = mockUserData.find(u => u.email === email && u.password === password);
         if (user) {
             setUser(user);
             setLoggedIn(true);
+            // Store logged-in user in localStorage with a different key
+            localStorage.setItem('loggedInUserData', JSON.stringify(user)); 
             setError(null);
             return true;
         } else {

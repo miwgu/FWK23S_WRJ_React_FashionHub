@@ -6,14 +6,16 @@ import CloseIcon from '@mui/icons-material/Close';
 
 const LoginModal = ({ isOpen, onClose }) => {
   const { login, error } = useContext(AuthContext);
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = (event) => {
     event.preventDefault();
-    login(username, password);
+    const success = login(email, password);
+    if(success){
     onClose(); // Close the modal after attempting to log in
+    }
   };
 
 
@@ -64,11 +66,11 @@ const LoginModal = ({ isOpen, onClose }) => {
         {error && <Typography color="error">{error}</Typography>}
         <Grid item>
         <TextField
-          label="Username"
+          label="email"
           fullWidth
           margin="normal"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         </Grid>
 

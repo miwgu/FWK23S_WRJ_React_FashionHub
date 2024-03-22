@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 //import { useHistory } from 'react-router-dom'; 
 
 const Login_Page = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   //const history = useHistory();
   const {user, login, loggedIn, error} = useContext(AuthContext);
@@ -48,6 +48,13 @@ const Login_Page = () => {
     navigate('/signup')
   } 
 
+  const handleLogin = (event) => {
+    event.preventDefault();
+    const success = login(email, password);
+    if(success){
+    onClose(); // Close the modal after attempting to log in
+    }
+  };
 
   /* const handleLogin = async () => {
     if (!username || !password) {
@@ -64,13 +71,14 @@ const Login_Page = () => {
       // Handle login error, e.g., display error message to user
     }
   }; */
-  
+  /*
   const handleLogin  = (event) => {
     event.preventDefault();
-    login(username, password);
+    login(email, password);
     navigate('/');
-    console.log('User '+{username}+' logged in successfully')
+    console.log('User '+{email}+' logged in successfully')
 };
+*/
 
   
 
@@ -85,10 +93,10 @@ const Login_Page = () => {
         </Grid>
         <Grid item>
           <TextField
-            label="Username"
+            label="Email"
             fullWidth
             margin="normal"
-            value={username}
+            value={email}
             onChange={(e) => setUsername(e.target.value)}
           />
         </Grid>

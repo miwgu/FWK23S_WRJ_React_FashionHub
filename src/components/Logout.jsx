@@ -9,8 +9,8 @@ const Logout = () => {
 
     const handleLogout = () => {
         setLoggedIn(false);
-        setUser('');
-        localStorage.removeItem('user');
+        setUser(null); //old ''
+        localStorage.removeItem('loggedInUserData'); // Remove the logged-in user data from localStorage
         navigate("/");
     };
 
