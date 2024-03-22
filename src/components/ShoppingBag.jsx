@@ -15,23 +15,43 @@ const ShoppingBag = ({ products, deleteProduct }) => {
     const [quantities, setQuantities] = useState({});
 
     useEffect(() => {
+        console.log("Products state changed, initializing quantities...");
         initializeQuantities();
     }, [products]);
 
     const initializeQuantities = () => {
         const storedProducts = JSON.parse(localStorage.getItem('products')) || [];
+        console.log("Stored products from localStorage:", storedProducts);
+
         const quantitiesObject = {};
         storedProducts.forEach((product) => {
             quantitiesObject[product.idMeal] = product.quantity || 1;
         });
+        console.log("Quantities object:", quantitiesObject);
+
         setQuantities(quantitiesObject);
     };
 
-    const handleChangeQuantity = (idMeal, quantity) => {
-        const updatedQuantities = { ...quantities, [idMeal]: quantity };
-        setQuantities(updatedQuantities);
+    /*  The "Current quantities" log shows the correct quantities before the update.
+        The "Updated quantities" log shows the updated quantities as expected.
+        However, the quantities in the local storage (localStorage) are not consistent with the updated quantities.  -> I changed rad 53 it works know! */ 
 
-        const updatedProducts = products.map((product) => {
+    const handleChangeQuantity = (idMeal, quantity) => {
+
+        console.log("Current quantities:", quantities);
+
+        //Update local state
+        //By using the callback form of setQuantities, ensuring that you're working with the most up-to-date state when updating it.
+        setQuantities(prevQuantities => {
+        const updatedQuantities = { ...prevQuantities, [idMeal]: quantity };
+        console.log("Updated quantities:", updatedQuantities);
+        return updatedQuantities;
+        });
+
+        // Get items from localStrage and update localStrage
+        //By directly updating the products from the local storage and then setting them back, you ensure that the products state in your component reflects the most up-to-date data from the local storage.
+        const storedProducts = JSON.parse(localStorage.getItem('products')) || [];// get itefrom localStrage.m
+        const updatedProducts = storedProducts.map((product) => {
             if (product.idMeal === idMeal) {
                 return { ...product, quantity };
             }
@@ -39,6 +59,7 @@ const ShoppingBag = ({ products, deleteProduct }) => {
         });
 
         localStorage.setItem('products', JSON.stringify(updatedProducts));
+        console.log("Products in localStorage updated:", updatedProducts);
     };
 
     const price = 100;
@@ -58,8 +79,10 @@ const ShoppingBag = ({ products, deleteProduct }) => {
                 </>
             ) : (
                 <>
-                   <Grid item xs={12} textAlign="center" Container spacing={4}>
-                        <Typography justifyContent="center" component="div" variant="h4">Your shopping bag </Typography>
+                   <Grid container spacing={4} justifyContent="center" alignItems="center">
+                        <Grid item xs={12} textAlign="center">
+                            <Typography component="div" variant="h4">Your shopping bag</Typography>
+                        </Grid>
                     </Grid>
                     <Grid container spacing ={2}>
                         <Grid item xs={8}>

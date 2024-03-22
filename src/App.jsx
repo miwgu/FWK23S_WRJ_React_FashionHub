@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import Login_Page from './components/Login_Page';
 import MyNav from './components/nav/MyNav';
@@ -25,8 +25,35 @@ function App() {
 
   } */
 
+  //This object (placeholder values) with default values that will later be replaced with actual values
+ /*  const initialProduct = {
+      idMeal: '',
+      strMeal: '',
+      quantity: 0,
+      price: 0 // Placeholder value
+  }; 
   
-  const addProduct = (product) => {
+  useEffect(() =>{
+    const existingProductIndex = products.findIndex((p)=> p.idMeal === initialProduct.idMeal);
+    
+    if(existingProductIndex === -1){
+     setProducts((prevProducts)=>[...prevProducts, initialProduct]);
+     localStorage.setItem('products', JSON.stringify([...products, initialProduct]));
+    }
+  }, []);  */
+
+  useEffect(() => {
+    // Check if there are products stored in localStorage
+    const storedProducts = JSON.parse(localStorage.getItem('products')) || [];
+    
+    // If there are no products in state and there are stored products, set them in state
+    if (products.length === 0 && storedProducts.length > 0) {
+        setProducts(storedProducts);
+    }
+}, []);
+  
+
+    const addProduct = (product) => {
     const { idMeal } = product;
     const updateProducts = [...products];
     const existingProductIndex = updateProducts.findIndex((p) => p.idMeal === idMeal);
@@ -59,8 +86,28 @@ function App() {
 
     console.log("Products in local storage:", JSON.parse(localStorage.getItem('products')));
 };
-
+ 
     
+  
+/* const addProduct = (product) => {
+  const existingProductIndex = products.findIndex((p) => p.idMeal === product.idMeal);
+
+  if (existingProductIndex !== -1) {
+      // If the product already exists, update its quantity
+      const updatedProducts = [...products];
+      updatedProducts[existingProductIndex].quantity += 1;
+      setProducts(updatedProducts);
+      localStorage.setItem('products', JSON.stringify(updatedProducts));
+  } else {
+      // If the product is new, add it to the products array
+      const updatedProducts = [...products, { ...product, quantity: 1 }];
+      setProducts(updatedProducts);
+      localStorage.setItem('products', JSON.stringify(updatedProducts));
+  }
+};
+
+ */
+
 
 
   const deleteProduct =(idMeal) =>{

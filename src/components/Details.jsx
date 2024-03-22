@@ -62,6 +62,11 @@ const Details = ({addProduct}) => {
    },[id]);
 
 
+   const handleAddToBag = () => {
+    addProduct(details);
+};
+
+
   return (
    <Box pt={6}>
     <Container >
@@ -86,7 +91,7 @@ const Details = ({addProduct}) => {
           <p style={{ textAlign: 'left' }}>{details.strInstructions}</p>
             <div>
               <Button variant="contained" color="primary" 
-                       onClick={()=>addProduct(details)} fullWidth>
+                       onClick={handleAddToBag} fullWidth>
                   Add to bag
               </Button>
             </div>
