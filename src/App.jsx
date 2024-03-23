@@ -6,6 +6,7 @@ import Home_Page from './components/Home_Page';
 import Signup from './components/Signup';
 import Details from './components/Details';
 import ShoppingBag from './components/ShoppingBag';
+import OrderDetails from './components/OrderDetails';
 
 
 function App() {
@@ -132,6 +133,7 @@ function App() {
         <Route path="/product-details/:id" element={<Details  addProduct={addProduct} />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/cart" element ={<ShoppingBag products={products} deleteProduct={deleteProduct}/>} />
+        <Route path="/orderdetails" element={<OrderDetails/>} />
     </Routes>
     </>
   );

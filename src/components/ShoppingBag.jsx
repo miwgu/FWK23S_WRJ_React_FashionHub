@@ -4,9 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { Delete } from '@mui/icons-material';
+import { AuthContext } from './AuthContext';
 
 const ShoppingBag = ({ products, deleteProduct }) => {
     const navigate = useNavigate();
+    const { loggedIn } = useContext(AuthContext);
+
+    const handleGotoLogin = () => {
+        navigate('/login'); // Navigate to the login page when the user clicks on the Login button
+    };
 
     const handleGotoHome = () => {
         navigate('/');
@@ -76,12 +82,17 @@ const ShoppingBag = ({ products, deleteProduct }) => {
         orders.push(order);
         localStorage.setItem('orders', JSON.stringify(orders));
         // Optionally clear the shopping bag after checkout
-        clearShoppingBag();
+
+        navigate('/orderdetails');
+        //clearShoppingBag();
     };
 
+
+     // It is better to move this to when you click End pf Purchase
+    /*
     const clearShoppingBag = () => {
         localStorage.removeItem('products');
-    };
+    };*/ 
 
 
 
@@ -152,9 +163,16 @@ const ShoppingBag = ({ products, deleteProduct }) => {
                                     Total {totalAmount} kr
                                 </Typography>
                                 <div>
-                                    <Button variant="contained" color="primary" onClick={checkout} fullWidth>
-                                        Checkout
-                                    </Button>
+                                    {/* Render either the Checkout button or the Login button based on the loggedIn state */}
+                                    {!loggedIn ? (
+                                        <Button variant="contained" color="primary" fullWidth onClick={handleGotoLogin}>
+                                            Login to Checkout
+                                        </Button>
+                                    ) : (
+                                        <Button variant="contained" color="primary" fullWidth onClick={handleCheckout}>
+                                            Checkout
+                                        </Button>
+                                    )}
                                 </div>
                             </Box>
                         </Grid>
