@@ -6,7 +6,7 @@ import CardMedia from '@mui/material/CardMedia';
 import { Delete } from '@mui/icons-material';
 import { AuthContext } from './AuthContext';
 
-const ShoppingBag = ({ products, updateProducts, deleteProduct, localStorageCleared }) => {
+const ShoppingBag = ({ products, updateProducts, deleteProduct }) => {
     const navigate = useNavigate();
     const { loggedIn } = useContext(AuthContext);
 
@@ -120,7 +120,7 @@ const ShoppingBag = ({ products, updateProducts, deleteProduct, localStorageClea
 
     return (
         <Container>
-            {!products.length || localStorageCleared ? (
+            {!products.length ? (
                 <>
                 <Grid container spacing={2} justifyContent="center" alignItems="center" style={{ minHeight: '70vh' }}>
                     <Grid item xs={12} textAlign="center">
