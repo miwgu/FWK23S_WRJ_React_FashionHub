@@ -5,6 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { Delete } from '@mui/icons-material';
 import { AuthContext } from './AuthContext';
+import { Link } from 'react-router-dom';
 
 const ShoppingBag = ({ products, updateProducts, deleteProduct }) => {
     const navigate = useNavigate();
@@ -140,12 +141,15 @@ const ShoppingBag = ({ products, updateProducts, deleteProduct }) => {
                         <Grid item xs={8}>
                             {products.map((product) => (
                                 <Card key={product.idMeal} sx={{ marginBottom: '10px', display: 'flex' }} spacing={1}>
+                                    
+                                    <Link to ={`/product-details/${product.idMeal}`} style={{textDecoration: 'none'}}>
                                     <CardMedia
                                         component="img"
                                         sx={{ width: 151 }}
                                         image={product.strMealThumb}
                                         alt={product.strMeal}
                                     />
+                                    </Link>
                                     <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1, marginLeft: '10px' }}>
                                         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                                             <Typography variant="h5" component="div">{product.strMeal}</Typography>
