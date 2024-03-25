@@ -6,9 +6,10 @@ import CardMedia from '@mui/material/CardMedia';
 import { Delete } from '@mui/icons-material';
 import { AuthContext } from './AuthContext';
 
-const ShoppingBag = ({ products, updateProducts, deleteProduct }) => {
+const ShoppingBag = ({ products, updateProducts, deleteProduct, localStorageCleared }) => {
     const navigate = useNavigate();
     const { loggedIn } = useContext(AuthContext);
+    const [shoppingBagEmpty, setShoppingBagEmpty] = useState(false);
 
     const handleGotoLogin = () => {
         navigate('/login'); // Navigate to the login page when the user clicks on the Login button
@@ -25,6 +26,13 @@ const ShoppingBag = ({ products, updateProducts, deleteProduct }) => {
         initializeQuantities();
     }, [products]);
 
+    /* useEffect(()=>{
+        const storedProducts = JSON.parse(localStorage.getItem('products')) || [];
+        if (storedProducts.length === 0) {
+            setShoppingBagEmpty(true);
+        }
+    },[products])
+ */
     const initializeQuantities = () => {
         const storedProducts = JSON.parse(localStorage.getItem('products')) || [];
         console.log("Stored products from localStorage:", storedProducts);
@@ -113,7 +121,7 @@ const ShoppingBag = ({ products, updateProducts, deleteProduct }) => {
 
     return (
         <Container>
-            {!products.length ? (
+            {!products.length || localStorageCleared ? (
                 <>
                 <Grid container spacing={2} justifyContent="center" alignItems="center" style={{ minHeight: '70vh' }}>
                     <Grid item xs={12} textAlign="center">

@@ -6,6 +6,7 @@ const OrderDetails = () => {
     // Retrieve user information from localStorage
     const loggedInUserData = JSON.parse(localStorage.getItem('loggedInUserData'));
     const { firstname, lastname, email } = loggedInUserData || {};
+    //const [localStorageCleared, setLocalStorageCleared] = useState(false);
     const navigate = useNavigate();
 
 
@@ -22,8 +23,9 @@ const OrderDetails = () => {
     });
 
     const handleOrderComplete = () =>{
+        clearShoppingBag();  
         navigate('/ordercomplete');
-        clearShoppingBag();        
+        //setLocalStorageCleared(true);
 
     }
 

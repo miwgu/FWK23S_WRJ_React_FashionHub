@@ -52,7 +52,7 @@ const Login_Page = () => {
     event.preventDefault();
     const success = login(email, password);
     if(success){
-      navigate('/');
+      navigate('/cart');
     }
   };
 
