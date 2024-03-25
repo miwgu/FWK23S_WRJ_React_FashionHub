@@ -10,10 +10,15 @@ import OrderDetails from './components/OrderDetails';
 
 
 function App() {
-  const storedProducts = JSON.parse(localStorage.getItem('Products'))||[];
+  const storedProducts = JSON.parse(localStorage.getItem('products'))||[];
   const [products, setProducts] = useState(storedProducts);
   const [searchTerm, setSearchTerm]= useState('');
   const navigate = useNavigate();
+
+  const updateProducts = (updatedProducts) => {
+    setProducts(updatedProducts);
+    localStorage.setItem('products', JSON.stringify(updatedProducts));
+  };
 
   /* const addProduct = (product) =>{
     //TODO: Add price
@@ -51,10 +56,15 @@ function App() {
     if (products.length === 0 && storedProducts.length > 0) {
         setProducts(storedProducts);
     }
+}, [products]);
+
+useEffect(() => {
+  // Log whenever localStorage products are updated
+  console.log("LocalStorage products updated:", JSON.parse(localStorage.getItem('products')));
 }, []);
   
 
-    const addProduct = (product) => {
+/*     const addProduct = (product) => {
     const { idMeal } = product;
     const updateProducts = [...products];
     const existingProductIndex = updateProducts.findIndex((p) => p.idMeal === idMeal);
@@ -86,11 +96,11 @@ function App() {
     localStorage.setItem('products', JSON.stringify(updateProducts));
 
     console.log("Products in local storage:", JSON.parse(localStorage.getItem('products')));
-};
+}; */
  
     
   
-/* const addProduct = (product) => {
+ const addProduct = (product) => {
   const existingProductIndex = products.findIndex((p) => p.idMeal === product.idMeal);
 
   if (existingProductIndex !== -1) {
@@ -105,10 +115,9 @@ function App() {
       setProducts(updatedProducts);
       localStorage.setItem('products', JSON.stringify(updatedProducts));
   }
+   // Dispatch custom event to notify MyNav component
+   window.dispatchEvent(new Event('shoppingBagUpdated'));
 };
-
- */
-
 
 
   const deleteProduct =(idMeal) =>{
@@ -116,6 +125,9 @@ function App() {
     
     setProducts(updatedPro);
     localStorage.setItem('products', JSON.stringify(updatedPro));
+
+    // Dispatch custom event to notify MyNav component
+    window.dispatchEvent(new Event('shoppingBagUpdated'));
   }
 
   const handleSearch = (term) =>{
@@ -125,14 +137,14 @@ function App() {
 
   return (
     <>
-    <MyNav onSearch={handleSearch} />
+    <MyNav onSearch={handleSearch} products={products} />
     <Routes>
 
         <Route path="/" element={<Home_Page searchTerm={searchTerm} />} />
         <Route path="/login" element={<Login_Page/>} />
-        <Route path="/product-details/:id" element={<Details  addProduct={addProduct} />} />
+        <Route path="/product-details/:id" element={<Details addProduct={addProduct} />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/cart" element ={<ShoppingBag products={products} deleteProduct={deleteProduct}/>} />
+        <Route path="/cart" element ={<ShoppingBag products={products} updateProducts={updateProducts} deleteProduct={deleteProduct}/>} />
         <Route path="/orderdetails" element={<OrderDetails/>} />
     </Routes>
     </>

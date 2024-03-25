@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import AppBar from '@mui/material/AppBar';
@@ -68,17 +68,53 @@ const Search = styled('div')(({ theme }) => ({
     },
   }));
 
-const MyNav=({onSearch})=> {
+const MyNav=({onSearch, products})=> {
   const { loggedIn, user } = useContext(AuthContext);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] =useState('');
-
+  const [totalQuantity, setTotalQuantity] = useState(0);
+  
   const handleSearch = () => {
     onSearch(searchTerm);
   }
 
+   /* useEffect(() => {
+      const storedProducts = JSON.parse(localStorage.getItem('products')) || [];
+      console.log("NAV_PRO", products)
+        let total = 0;
+        storedProducts.forEach((product) => {
+            total += product.quantity || 0;
+        });
+        setTotalQuantity(total);
+        
+    }, [products]); */
+  
+    useEffect(() => {
+      const handleShoppingBagUpdate = () => {
+          // Update totalQuantity when shopping bag is updated
+          const storedProducts = JSON.parse(localStorage.getItem('products')) || [];
+          let total = 0;
+          storedProducts.forEach((product) => {
+              total += product.quantity || 0;
+          });
+          setTotalQuantity(total);
+      };
+  
+      // Listen for shoppingBagUpdated event
+      window.addEventListener('shoppingBagUpdated', handleShoppingBagUpdate);
+  
+      // Call the handler initially to ensure totalQuantity is updated when the component mounts
+      handleShoppingBagUpdate();
+  
+      // Cleanup function
+      return () => {
+          window.removeEventListener('shoppingBagUpdated', handleShoppingBagUpdate);
+      };
+  }, []);
+  
+  
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -182,7 +218,7 @@ const MyNav=({onSearch})=> {
               aria-label="show cart"
               color="inherit"
             >
-              <Badge badgeContent={4} color="error">
+              <Badge badgeContent={totalQuantity} color="error">
                  <ShoppingBagIcon />
               </Badge>
             </IconButton>

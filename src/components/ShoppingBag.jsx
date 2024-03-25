@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Box, Button, IconButton, Card, Container, Grid, MenuItem, Select, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import CardContent from '@mui/material/CardContent';
@@ -6,7 +6,7 @@ import CardMedia from '@mui/material/CardMedia';
 import { Delete } from '@mui/icons-material';
 import { AuthContext } from './AuthContext';
 
-const ShoppingBag = ({ products, deleteProduct }) => {
+const ShoppingBag = ({ products, updateProducts, deleteProduct }) => {
     const navigate = useNavigate();
     const { loggedIn } = useContext(AuthContext);
 
@@ -40,36 +40,47 @@ const ShoppingBag = ({ products, deleteProduct }) => {
 
     /*  The "Current quantities" log shows the correct quantities before the update.
         The "Updated quantities" log shows the updated quantities as expected.
-        However, the quantities in the local storage (localStorage) are not consistent with the updated quantities.  -> I changed rad 53 it works know! */ 
-
+        However, the quantities in the local storage (localStorage) are not consistent with the updated quantities.  
+        -> I changed rad 64, Now updated quantity by droppdown  and  Update state in App.jsx component using the passed function*/ 
+        
     const handleChangeQuantity = (idMeal, quantity) => {
 
         console.log("Current quantities:", quantities);
 
         //Update local state
         //By using the callback form of setQuantities, ensuring that you're working with the most up-to-date state when updating it.
-        setQuantities(prevQuantities => {
+        /* setQuantities(prevQuantities => {
         const updatedQuantities = { ...prevQuantities, [idMeal]: quantity };
         console.log("Updated quantities:", updatedQuantities);
         return updatedQuantities;
-        });
+        }); */
+        setQuantities((prevQuantities)=>({
+            ...prevQuantities,
+            [idMeal]:quantity
+        }));
 
         // Get items from localStrage and update localStrage
         //By directly updating the products from the local storage and then setting them back, the products state in this component reflects the most up-to-date data from the local storage.
-        const storedProducts = JSON.parse(localStorage.getItem('products')) || [];// get itefrom localStrage.m
-        const updatedProducts = storedProducts.map((product) => {
+        const storedProducts = JSON.parse(localStorage.getItem('products')) || [];// get item from localStrage
+        const updated_Products = storedProducts.map((product) => {
             if (product.idMeal === idMeal) {
                 return { ...product, quantity };
             }
             return product;
         });
+        console.log("Updated quantities:", quantities)
 
-        localStorage.setItem('products', JSON.stringify(updatedProducts));
-        console.log("Products in localStorage updated:", updatedProducts);
+        //Update state inApp.jsx component using the passed function
+        updateProducts(updated_Products);
+
+        console.log("Products in localStorage updated:", updateProducts);
+
+        // Dispatch a custom event to notify other components about the change
+        window.dispatchEvent(new Event('shoppingBagUpdated'));
     };
 
      
-    const checkout = () => {
+    const handleCheckout = () => {
         const loggedInUserData = JSON.parse(localStorage.getItem('loggedInUserData'));
         const userId = loggedInUserData.id;
         

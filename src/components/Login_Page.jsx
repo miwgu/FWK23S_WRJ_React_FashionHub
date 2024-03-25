@@ -6,10 +6,10 @@ import { useNavigate } from 'react-router-dom';
 //import { useHistory } from 'react-router-dom'; 
 
 const Login_Page = () => {
+  const {login, error} = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  //const history = useHistory();
-  const {user, login, loggedIn, error} = useContext(AuthContext);
+  //const history = useHistory(); 
   const navigate = useNavigate();
 
  /*  const handleLogin = (event) => {
@@ -52,7 +52,7 @@ const Login_Page = () => {
     event.preventDefault();
     const success = login(email, password);
     if(success){
-    onClose(); // Close the modal after attempting to log in
+      navigate('/');
     }
   };
 
@@ -97,7 +97,7 @@ const Login_Page = () => {
             fullWidth
             margin="normal"
             value={email}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </Grid>
         <Grid item>
