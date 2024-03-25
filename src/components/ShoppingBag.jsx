@@ -9,7 +9,6 @@ import { AuthContext } from './AuthContext';
 const ShoppingBag = ({ products, updateProducts, deleteProduct, localStorageCleared }) => {
     const navigate = useNavigate();
     const { loggedIn } = useContext(AuthContext);
-    const [shoppingBagEmpty, setShoppingBagEmpty] = useState(false);
 
     const handleGotoLogin = () => {
         navigate('/login'); // Navigate to the login page when the user clicks on the Login button

@@ -146,7 +146,7 @@ useEffect(() => {
         <Route path="/product-details/:id" element={<Details addProduct={addProduct} />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/cart" element ={<ShoppingBag products={products} updateProducts={updateProducts} deleteProduct={deleteProduct}/>} />
-        <Route path="/orderdetails" element={<OrderDetails/>} />
+        <Route path="/orderdetails" element={<OrderDetails updateProducts={updateProducts} />} />
         <Route path="/ordercomplete" element={<OrderComplete />} />
     </Routes>
     </>

@@ -2,19 +2,18 @@ import React from 'react';
 import { Box, Button, Container, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-const OrderDetails = () => {
+const OrderDetails = ({ updateProducts }) => {
     // Retrieve user information from localStorage
     const loggedInUserData = JSON.parse(localStorage.getItem('loggedInUserData'));
     const { firstname, lastname, email } = loggedInUserData || {};
-    //const [localStorageCleared, setLocalStorageCleared] = useState(false);
     const navigate = useNavigate();
 
 
     // Retrieve order details from localStorage
     const orderDetails = JSON.parse(localStorage.getItem('orders')) || [];
-    const lastOrder = orderDetails[orderDetails.length - 1]; // Assuming you want to display details of the last order
+    const lastOrder = orderDetails[orderDetails.length - 1]; 
     
-    const price = 100; 
+    const price = 100; // I need to change when I use my API
 
     // Calculate total amount
     let totalAmount = 0;
@@ -25,12 +24,13 @@ const OrderDetails = () => {
     const handleOrderComplete = () =>{
         clearShoppingBag();  
         navigate('/ordercomplete');
-        //setLocalStorageCleared(true);
-
     }
 
     const clearShoppingBag = () => {
         localStorage.removeItem('products');
+        const storedProducts = JSON.parse(localStorage.getItem('products'))||[];
+        updateProducts(storedProducts);
+        window.dispatchEvent(new Event('shoppingBagUpdated'));
     };
 
     return (
