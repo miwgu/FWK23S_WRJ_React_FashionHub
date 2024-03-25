@@ -1,8 +1,11 @@
 import React from 'react'
 
 const OrderComplete = () => {
+    const loggedInUserData = JSON.parse(localStorage.getItem('loggedInUserData'));
+    const { firstname, lastname, email } = loggedInUserData || {};
+
   return (
-    <div>OrderComplete</div>
+    <div>Thank you for your Order!{firstname} </div>
   )
 }
 

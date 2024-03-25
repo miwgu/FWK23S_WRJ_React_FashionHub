@@ -1,13 +1,13 @@
 import React from 'react';
 import { Box, Button, Container, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const OrderDetails = () => {
     // Retrieve user information from localStorage
     const loggedInUserData = JSON.parse(localStorage.getItem('loggedInUserData'));
-    console.log(loggedInUserData)
     const { firstname, lastname, email } = loggedInUserData || {};
+    const navigate = useNavigate();
 
-    console.log(loggedInUserData.firstName)
 
     // Retrieve order details from localStorage
     const orderDetails = JSON.parse(localStorage.getItem('orders')) || [];
@@ -20,6 +20,16 @@ const OrderDetails = () => {
     lastOrder.products.forEach((product) => {
         totalAmount += product.quantity * price; // Calculate total amount based on quantity and price
     });
+
+    const handleOrderComplete = () =>{
+        navigate('/ordercomplete');
+        clearShoppingBag();        
+
+    }
+
+    const clearShoppingBag = () => {
+        localStorage.removeItem('products');
+    };
 
     return (
         <Container>
@@ -65,7 +75,7 @@ const OrderDetails = () => {
                         </Typography>
                     </Box>
                 )}
-                <Button variant="contained" color="primary" sx={{ mt: 4 }}>
+                <Button variant="contained" color="primary" sx={{ mt: 4 }} onClick={handleOrderComplete} >
                     End of Purchase
                 </Button>
             </Box>

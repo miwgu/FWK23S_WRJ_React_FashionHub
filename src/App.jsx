@@ -7,6 +7,7 @@ import Signup from './components/Signup';
 import Details from './components/Details';
 import ShoppingBag from './components/ShoppingBag';
 import OrderDetails from './components/OrderDetails';
+import OrderComplete from './components/OrderComplete';
 
 
 function App() {
@@ -146,6 +147,7 @@ useEffect(() => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/cart" element ={<ShoppingBag products={products} updateProducts={updateProducts} deleteProduct={deleteProduct}/>} />
         <Route path="/orderdetails" element={<OrderDetails/>} />
+        <Route path="/ordercomplete" element={<OrderComplete />} />
     </Routes>
     </>
   );
