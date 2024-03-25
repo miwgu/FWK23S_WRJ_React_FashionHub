@@ -1,11 +1,11 @@
 import React from 'react';
-import { Box, Button, Container, Typography } from '@mui/material';
+import { Box, Button, Container, Grid, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 const OrderDetails = ({ updateProducts }) => {
     // Retrieve user information from localStorage
     const loggedInUserData = JSON.parse(localStorage.getItem('loggedInUserData'));
-    const { firstname, lastname, email } = loggedInUserData || {};
+    const { firstname, lastname, email, telephone, address, city, postcode  } = loggedInUserData || {};
     const navigate = useNavigate();
 
 
@@ -35,19 +35,40 @@ const OrderDetails = ({ updateProducts }) => {
 
     return (
         <Container>
+          <Grid container spacing ={2}>
+            <Grid item xs={8}>
             <Box sx={{ mt: 4 }}>
+                <Box>
                 <Typography variant="h4" gutterBottom>
                     My Information
                 </Typography>
                 <Typography variant="body1" gutterBottom>
-                    First Name: {firstname}
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                    Last Name: {lastname}
+                    Your Name: {firstname}{" "}{lastname}
                 </Typography>
                 <Typography variant="body1" gutterBottom>
                     Email: {email}
                 </Typography>
+                </Box>
+
+                <Box>
+                <Typography variant="h4" gutterBottom>
+                    Invoice /Delivery address
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                {firstname}{" "}{lastname}
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                {telephone}
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                {address}
+                </Typography>  
+                <Typography variant="body1" gutterBottom>
+                {postcode}{" "}{city}
+                </Typography>  
+
+
+                </Box>
 
                 <Typography variant="h4" sx={{ mt: 4 }} gutterBottom>
                     Order Details
@@ -72,15 +93,24 @@ const OrderDetails = ({ updateProducts }) => {
                                 </Typography>
                             </Box>
                         ))}
-                        <Typography variant="h4" sx={{ mt: 4 }} gutterBottom>
-                            Total: {totalAmount} kr
-                        </Typography>
+                        
                     </Box>
+                  
                 )}
-                <Button variant="contained" color="primary" sx={{ mt: 4 }} onClick={handleOrderComplete} >
+               
+            </Box>
+            </Grid>
+            <Grid item xs={4}>
+               <Box sx={{ mt: 4 }}>
+                <Typography variant="h4" gutterBottom >
+                            Total: {totalAmount} kr
+                </Typography>
+                <Button variant="contained" color="primary"  fullWidth   onClick={handleOrderComplete} >
                     End of Purchase
                 </Button>
-            </Box>
+               </Box>
+            </Grid>
+        </Grid>
         </Container>
     );
 };
