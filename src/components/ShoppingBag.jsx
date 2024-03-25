@@ -143,7 +143,7 @@ const ShoppingBag = ({ products, updateProducts, deleteProduct }) => {
                                 <Card key={product.idMeal} sx={{ marginBottom: '10px', display: 'flex' }} spacing={1}>
                                     
                                     <Link to ={`/product-details/${product.idMeal}`} style={{textDecoration: 'none'}}>
-                                    <CardMedia
+                                    <CardMedia 
                                         component="img"
                                         sx={{ width: 151 }}
                                         image={product.strMealThumb}

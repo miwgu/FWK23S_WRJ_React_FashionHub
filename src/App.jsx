@@ -141,7 +141,7 @@ useEffect(() => {
     <MyNav onSearch={handleSearch} products={products} />
     <Routes>
 
-        <Route path="/" element={<Home_Page searchTerm={searchTerm} />} />
+        <Route path="/" element={<Home_Page searchTerm={searchTerm} addProduct={addProduct} />} />
         <Route path="/login" element={<Login_Page/>} />
         <Route path="/product-details/:id" element={<Details addProduct={addProduct} />} />
         <Route path="/signup" element={<Signup />} />

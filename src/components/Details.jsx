@@ -34,7 +34,7 @@ const Details = ({addProduct}) => {
     .catch((error)=>{
         console.log('Error: ', error);
             setError(error.message);
-            setData(null);
+            setDetails(null);
 
     })
     .finally(()=>{

@@ -16,7 +16,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 //import { FaRegHeart } from "react-icons/fa";
 //import { FaHeart } from "react-icons/fa6";
 
-const Home = ({searchTerm}) => {
+const Home_Page = ({searchTerm, addProduct}) => {
     
     //const storedFavorites = JSON.parse(localStorage.getItem('favorites'))||[];
     const [data, setData]= useState(null);
@@ -26,9 +26,13 @@ const Home = ({searchTerm}) => {
     //const [hoveredMealId, setHoveredMealId] = useState(null);
 
 
-   const handleAddtobag =() =>{
-     console.log("Need to Fix")
-   }
+    const handleAddtobag = (product) => {
+      if (product && product.idMeal) {
+        addProduct(product);
+      } else {
+        console.error('No valid product data available.');
+      }
+    }
 
 
 
@@ -65,6 +69,7 @@ const Home = ({searchTerm}) => {
                 console.log(response.data.meals)
                 setData(response.data.meals);
                 setError(null);   
+                
                 
             } else{
             throw new Error(
@@ -107,7 +112,6 @@ const Home = ({searchTerm}) => {
 
 
 
-
   return (
     <Box pt={6}>
     <Container >
@@ -147,7 +151,7 @@ const Home = ({searchTerm}) => {
                   </Typography>
                 </CardContent>
                 </Link>
-                  <Button variant="contained" color="primary" onClick={handleAddtobag} fullWidth>
+                  <Button variant="contained" color="primary" onClick={() => handleAddtobag({ idMeal, strMeal, strMealThumb })} fullWidth>
                   Add to bag
                  </Button>
                 
@@ -178,4 +182,4 @@ const Home = ({searchTerm}) => {
   )
 }
 
-export default Home
+export default Home_Page
