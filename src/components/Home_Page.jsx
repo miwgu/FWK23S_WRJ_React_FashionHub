@@ -19,7 +19,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 const Home_Page = ({searchTerm, addProduct}) => {
     
     //const storedFavorites = JSON.parse(localStorage.getItem('favorites'))||[];
-    const [data, setData]= useState(null);
+    const [data, setData]= useState([]);
     const [loading, setLoading]= useState(true);
     const [error, setError]= useState(null);
     //const [fahandleAddtobagvoritesData, setFavoritesData] = useState(favorites);
@@ -62,12 +62,12 @@ const Home_Page = ({searchTerm, addProduct}) => {
 
     useEffect(()=>{
         axios
-        .get(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchTerm}`)
+        .get(`http://localhost:8080/product/all/${searchTerm}`)
         .then((response)=>{
 
             if(response.status >= 200 && response.status < 300){
-                console.log(response.data.meals)
-                setData(response.data.meals);
+                console.log(response.data)
+                setData(response.data);
                 setError(null);   
                 
                 
@@ -122,36 +122,35 @@ const Home_Page = ({searchTerm, addProduct}) => {
 
         <Grid container spacing={2}>
          {data &&
-         data.map(({idMeal, strMeal, strMealThumb})=>(
+         data.map(item =>(
         
-            <Grid item xs={data.length <= 1 ? 6 : 4}  key ={idMeal}>
+            <Grid item xs={data.length <= 1 ? 6 : 4}  key ={item.id}>
 
                 
                 <Card 
                     sx={{ maxWidth: 345 }}
-                    key={idMeal}
+                    key={item.id}
                     
                 >
-                {/* <CardHeader
-                    title= {strMeal} /> */}
-              <Link to ={`/product-details/${idMeal}`} style={{textDecoration: 'none'}}>
+
+              <Link to ={`/product-details/${item.id}`} style={{textDecoration: 'none'}}>
                 <CardMedia
                     component = "img"
-                    height="300"
-                    image={strMealThumb}
-                    alt="Paella dish"
+                    height="500"
+                    image={item.image}
+                    alt={item.title}
                    />
 
                 <CardContent>
                   <Typography variant="body2" color="text.secondary">
-                  {strMeal}
+                  {item.title}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                   100kr
+                   {item.price}
                   </Typography>
                 </CardContent>
                 </Link>
-                  <Button variant="contained" color="primary" onClick={() => handleAddtobag({ idMeal, strMeal, strMealThumb })} fullWidth>
+                  <Button variant="outlined" color="primary" onClick={() => handleAddtobag({ item })} fullWidth>
                   Add to bag
                  </Button>
                 
