@@ -39,7 +39,7 @@ const ShoppingBag = ({ products, updateProducts, deleteProduct }) => {
 
         const quantitiesObject = {};
         storedProducts.forEach((product) => {
-            quantitiesObject[product.idMeal] = product.quantity || 1;
+            quantitiesObject[product.id] = product.quantity || 1;
         });
         console.log("Quantities object:", quantitiesObject);
 
@@ -51,7 +51,7 @@ const ShoppingBag = ({ products, updateProducts, deleteProduct }) => {
         However, the quantities in the local storage (localStorage) are not consistent with the updated quantities.  
         -> I changed rad 64, Now updated quantity by droppdown  and  Update state in App.jsx component using the passed function*/ 
         
-    const handleChangeQuantity = (idMeal, quantity) => {
+    const handleChangeQuantity = (id, quantity) => {
 
         console.log("Current quantities:", quantities);
 
@@ -64,14 +64,14 @@ const ShoppingBag = ({ products, updateProducts, deleteProduct }) => {
         }); */
         setQuantities((prevQuantities)=>({
             ...prevQuantities,
-            [idMeal]:quantity
+            [id]:quantity
         }));
 
         // Get items from localStrage and update localStrage
         //By directly updating the products from the local storage and then setting them back, the products state in this component reflects the most up-to-date data from the local storage.
         const storedProducts = JSON.parse(localStorage.getItem('products')) || [];// get item from localStrage
         const updated_Products = storedProducts.map((product) => {
-            if (product.idMeal === idMeal) {
+            if (product.id=== id) {
                 return { ...product, quantity };
             }
             return product;
@@ -115,9 +115,9 @@ const ShoppingBag = ({ products, updateProducts, deleteProduct }) => {
 
 
 
-    const price = 100;
+   //const price = 100;
 
-    const totalAmount = products.reduce((total, product) => total + (price * quantities[product.idMeal]), 0);
+    const totalAmount  = products.reduce((total, product) => total + (product.price * quantities[product.id]), 0);
 
     return (
         <Container>
@@ -140,32 +140,32 @@ const ShoppingBag = ({ products, updateProducts, deleteProduct }) => {
                     <Grid container spacing ={2}>
                         <Grid item xs={8}>
                             {products.map((product) => (
-                                <Card key={product.idMeal} sx={{ marginBottom: '10px', display: 'flex' }} spacing={1}>
+                                <Card key={product.id} sx={{ marginBottom: '10px', display: 'flex' }} spacing={1}>
                                     
-                                    <Link to ={`/product-details/${product.idMeal}`} style={{textDecoration: 'none'}}>
+                                    <Link to ={`/product-details/${product.id}`} style={{textDecoration: 'none'}}>
                                     <CardMedia 
                                         component="img"
                                         sx={{ width: 151 }}
-                                        image={product.strMealThumb}
-                                        alt={product.strMeal}
+                                        image={product.image}
+                                        alt={product.title}
                                     />
                                     </Link>
                                     <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1, marginLeft: '10px' }}>
                                         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                                            <Typography variant="h5" component="div">{product.strMeal}</Typography>
-                                            <IconButton aria-label="delete" onClick={() => deleteProduct(product.idMeal)}>
+                                            <Typography variant="h5" component="div">{product.title}</Typography>
+                                            <IconButton aria-label="delete" onClick={() => deleteProduct(product.id)}>
                                                 <Delete />
                                             </IconButton>
                                         </Box>
-                                        <p>{price} kr</p>
+                                        <p>{product.price} kr</p>
                                         <Box>
                                             <Typography component="div" variant="h9">
-                                                Total amount: {price * quantities[product.idMeal]} 
+                                                Total amount: {product.price * quantities[product.id]}{" kr"} 
                                             </Typography>
                                         </Box>
                                         <Select
-                                            value={quantities[product.idMeal] || 1}
-                                            onChange={(e) => handleChangeQuantity(product.idMeal, e.target.value)}
+                                            value={quantities[product.id] || 1}
+                                            onChange={(e) => handleChangeQuantity(product.id, e.target.value)}
                                             fullWidth
                                         >
                                             {[...Array(20).keys()].map((num) => (

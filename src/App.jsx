@@ -102,7 +102,7 @@ useEffect(() => {
     
   
  const addProduct = (product) => {
-  const existingProductIndex = products.findIndex((p) => p.idMeal === product.idMeal);
+  const existingProductIndex = products.findIndex((p) => p.id === product.id);
 
   if (existingProductIndex !== -1) {
       // If the product already exists, update its quantity
@@ -121,8 +121,8 @@ useEffect(() => {
 };
 
 
-  const deleteProduct =(idMeal) =>{
-    const updatedPro = products.filter((product) => product.idMeal !== idMeal )
+  const deleteProduct =(id) =>{
+    const updatedPro = products.filter((product) => product.id !== id )
     
     setProducts(updatedPro);
     localStorage.setItem('products', JSON.stringify(updatedPro));
