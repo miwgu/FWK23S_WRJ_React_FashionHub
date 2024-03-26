@@ -1,24 +1,24 @@
 [
-    {
-      "id": 1,
-      "firstname": "Miwa",
-      "lastname": "G",
-      "email": "miwa.g@example.com",
-      "telephone": "1234567890",
-      "address": "123 Main St",
-      "city": "New York",
-      "postcode": "10001",
-      "password": "1234"
-    },
-    {
-      "id": 2,
-      "firstname": "Oskar",
-      "lastname": "G",
-      "email": "oskar.g@example.com",
-      "telephone": "0987654321",
-      "address": "456 Elm St",
-      "city": "Los Angeles",
-      "postcode": "90001",
-      "password": "2345"
-    }
-  ]
+  {
+    "id": 1,
+    "firstname": "Miwa",
+    "lastname": "G",
+    "email": "miwa.g@example.com",
+    "telephone": "0701112222",
+    "address": "Parkmainvägen",
+    "city": "Stockholm",
+    "postcode": "10001",
+    "password": "1234"
+  },
+  {
+    "id": 2,
+    "firstname": "Oskar",
+    "lastname": "G",
+    "email": "oskar.g@example.com",
+    "telephone": "0807654321",
+    "address": "ExampleElm",
+    "city": "Uppsala",
+    "postcode": "90001",
+    "password": "2345"
+  }
+]

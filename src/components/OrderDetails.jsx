@@ -12,13 +12,11 @@ const OrderDetails = ({ updateProducts }) => {
     // Retrieve order details from localStorage
     const orderDetails = JSON.parse(localStorage.getItem('orders')) || [];
     const lastOrder = orderDetails[orderDetails.length - 1]; 
-    
-    const price = 100; // I need to change when I use my API
 
     // Calculate total amount
     let totalAmount = 0;
     lastOrder.products.forEach((product) => {
-        totalAmount += product.quantity * price; // Calculate total amount based on quantity and price
+        totalAmount += product.quantity * product.price; // Calculate total amount based on quantity and price
     });
 
     const handleOrderComplete = () =>{
@@ -86,10 +84,10 @@ const OrderDetails = ({ updateProducts }) => {
                                 </Typography>
                                 {/* Add a placeholder price */}
                                 <Typography variant="body1" gutterBottom>
-                                    Price: 100 kr {/* Placeholder price */}
+                                    Price: {product.price}
                                 </Typography>
                                 <Typography variant="body1" gutterBottom>
-                                    Total: {product.quantity * 100} kr {/* Placeholder calculation */}
+                                    Total: {product.quantity * product.price} kr 
                                 </Typography>
                             </Box>
                         ))}
