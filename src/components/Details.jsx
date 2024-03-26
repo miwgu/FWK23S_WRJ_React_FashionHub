@@ -17,12 +17,12 @@ const Details = ({addProduct}) => {
    useEffect(()=>{
     
        axios
-       .get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`)
+       .get(`http://localhost:8080/product/byid/${id}`)
        .then((response)=>{
 
         if(response.status >= 200 && response.status < 300){
-            console.log(response.data.meals[0])
-            setDetails(response.data.meals[0]);
+            console.log(response.data[0])
+            setDetails(response.data[0]);
             setError(null);   
             
         } else{
@@ -74,21 +74,22 @@ const Details = ({addProduct}) => {
       {error && <div>{`There is a problem fetching the data - ${error}`}</div>}
       {details && (
     <Grid container spacing={2}>
-        <Grid item xs={6} md={4}>
+        <Grid item xs={6} >
         <Box>
           <img 
-          src={details.strMealThumb} 
+          src={details.image} 
           
           className="img-fluid" 
-          style={{ maxWidth: '3500px', maxHeight: '350px' }}  
+          style={{ maxWidth: '450px', maxHeight: '600px' }}  
           />
         </Box>
         </Grid>
         
-        <Grid item xs={6} md={8}>
+        <Grid item xs={6} >
          <Box>
-          <h1>{details.strMeal}</h1>
-          <p style={{ textAlign: 'left' }}>{details.strInstructions}</p>
+          <h1>{details.title}</h1>
+          <h4>{details.price}</h4>
+          <p style={{ textAlign: 'left' }}>{details.description}</p>
             <div>
               <Button variant="contained" color="primary" 
                        onClick={handleAddToBag} fullWidth>

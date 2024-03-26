@@ -27,7 +27,7 @@ const Home_Page = ({searchTerm, addProduct}) => {
 
 
     const handleAddtobag = (product) => {
-      if (product && product.idMeal) {
+      if (product && product.id) {
         addProduct(product);
       } else {
         console.error('No valid product data available.');
