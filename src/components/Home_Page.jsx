@@ -122,35 +122,35 @@ const Home_Page = ({searchTerm, addProduct}) => {
 
         <Grid container spacing={2}>
          {data &&
-         data.map(item =>(
+         data.map(({id, title, image, price})=>(
         
-            <Grid item xs={data.length <= 1 ? 6 : 4}  key ={item.id}>
+            <Grid item xs={data.length <= 1 ? 6 : 4}  key ={id}>
 
                 
                 <Card 
                     sx={{ maxWidth: 345 }}
-                    key={item.id}
+                    key={id}
                     
                 >
 
-              <Link to ={`/product-details/${item.id}`} style={{textDecoration: 'none'}}>
+              <Link to ={`/product-details/${id}`} style={{textDecoration: 'none'}}>
                 <CardMedia
                     component = "img"
                     height="500"
-                    image={item.image}
-                    alt={item.title}
+                    image={image}
+                    alt={title}
                    />
 
                 <CardContent>
                   <Typography variant="body2" color="text.secondary">
-                  {item.title}
+                  {title}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                   {item.price}
+                   {price}
                   </Typography>
                 </CardContent>
                 </Link>
-                  <Button variant="outlined" color="primary" onClick={() => handleAddtobag({ item })} fullWidth>
+                  <Button variant="outlined" color="primary" onClick={() => handleAddtobag({id, title, image, price})} fullWidth>
                   Add to bag
                  </Button>
                 
