@@ -5,16 +5,18 @@ import { Modal, Button, TextField, Typography, Container, Grid, IconButton } fro
 import CloseIcon from '@mui/icons-material/Close';
 
 const LoginModal = ({ isOpen, onClose }) => {
-  const { login, error } = useContext(AuthContext);
+  const { login, error, fetchLoginUser } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
-    const success = login(email, password);
+    const success = await login(email, password);
     if(success){
+    await fetchLoginUser()
     onClose(); // Close the modal after attempting to log in
+    navigate('/')
     }
   };
 

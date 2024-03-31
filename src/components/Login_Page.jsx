@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 //import { useHistory } from 'react-router-dom'; 
 
 const Login_Page = () => {
-  const {login, error} = useContext(AuthContext);
+  const {login, error, fetchLoginUser} = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   //const history = useHistory(); 
@@ -48,49 +48,44 @@ const Login_Page = () => {
     navigate('/signup')
   } 
 
-  const handleLogin = (event) => {
+  /* const handleLogin = (event) => {
     event.preventDefault();
     const success = login(email, password);
     if(success){
       navigate('/cart');
     }
   };
+ */
 
-  /* const handleLogin = async () => {
-    if (!username || !password) {
-      alert('Please fill in both username and password!');
-      return;
-    }
-
-    try {
-      await login(username, password);
-      navigate('/');
-    } catch (error) {
-      console.error('Login failed:', error);
-      navigate('/');
-      // Handle login error, e.g., display error message to user
+/*   const handleLogin = async (event) => {
+    event.preventDefault();
+    const success = await login(email, password);
+    if (success) {
+      await fetchLoginUser(); // Fetch user info after successful login
+      navigate('/cart'); // Navigate to the desired page after successful login
     }
   }; */
-  /*
-  const handleLogin  = (event) => {
+
+  const handleLogin = async (event) => {
     event.preventDefault();
-    login(email, password);
-    navigate('/');
-    console.log('User '+{email}+' logged in successfully')
-};
-*/
-
-  
-
+    const success = await login(email, password);
+    if(success){
+    await fetchLoginUser()
+    //onClose(); // Close the modal after attempting to log in
+    navigate('/cart')
+    }
+  };
 
 
   return (
-    
     <Container maxWidth="xs">
       <Grid container direction="column" spacing={2} alignItems="center">
         <Grid item>
           <Typography variant="h4">Login</Typography>
         </Grid>
+
+        {error && <Typography color="error">{error}</Typography>}
+
         <Grid item>
           <TextField
             label="Email"
@@ -111,7 +106,7 @@ const Login_Page = () => {
           />
         </Grid>
         <Grid item>
-        { error && <div >{error}</div>} 
+        
           <Button variant="contained" color="primary" onClick={handleLogin} fullWidth style={{ width: '300px' }}>
             Login
           </Button>
@@ -123,7 +118,6 @@ const Login_Page = () => {
         </Grid>
       </Grid>
     </Container>
-    
   );
 };
 

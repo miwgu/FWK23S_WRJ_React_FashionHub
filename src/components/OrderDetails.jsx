@@ -77,7 +77,7 @@ const OrderDetails = ({ updateProducts }) => {
                         {lastOrder.products.map((product, index) => (
                             <Box key={index} sx={{ mt: 2 }}>
                                 <Typography variant="body1" gutterBottom>
-                                    Product: {product.strMeal}
+                                    Product: {product.title}
                                 </Typography>
                                 <Typography variant="body1" gutterBottom>
                                     Quantity: {product.quantity}
