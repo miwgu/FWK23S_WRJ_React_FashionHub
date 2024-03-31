@@ -18,7 +18,7 @@ export const AuthProvider = ({children}) => {
         {email: 'oskar.g@example.com', password: '2345'},
     ]; */
 
-    /* useEffect(() => {
+    useEffect(() => {
         // Check if there is a logged-in user in localStorage on component mount
         const loggedInUser = JSON.parse(localStorage.getItem('loggedInUserData'));
         if (loggedInUser) {
@@ -27,7 +27,7 @@ export const AuthProvider = ({children}) => {
         }
       }, []);
 
-    const login = (email, password) => {
+   /* const login = (email, password) => {
         const user = mockUserData.find(u => u.email === email && u.password === password);
         if (user) {
             setUser(user);

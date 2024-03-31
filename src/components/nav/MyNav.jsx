@@ -224,29 +224,24 @@ const MyNav=({onSearch, products})=> {
             </IconButton>
             
 
-        {!loggedIn && (
-            <IconButton
-               /* component={Link}
-              to="/login" */ 
-              size="large"
-              onClick={handleLoginModalOpen} //Open the login modal
-              aria-label="account of current user"
-              aria-haspopup="true"
-              color="inherit"
-            >
-              <AccountCircleIcon  />
-            </IconButton>
-            )}
-        {/* {loggedIn &&(
-                <IconButton         
-            size="large"
-            aria-label="account of current user"
-            aria-haspopup="true"
-            color="inherit"
-            >
-            welcome, {user.username}
-            </IconButton>
-     )} */}
+            {/* {user ? (
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar alt={user.firstname} src="/static/images/avatar/2.jpg" />
+                  </IconButton>
+                </Tooltip>
+              ) : (
+                <IconButton
+                  size="large"
+                  onClick={handleLoginModalOpen}
+                  aria-label="account of current user"
+                  aria-haspopup="true"
+                  color="inherit"
+                >
+                  <AccountCircleIcon />
+                </IconButton>
+              )} */}
+
           </Box>
         
         
@@ -284,7 +279,54 @@ const MyNav=({onSearch, products})=> {
               ))}
             </Menu>
           </Box>
-          {loggedIn &&(
+
+          <Box sx={{ flexGrow: 0 }}>
+            {user ? (
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt={user.firstname} src="/static/images/avatar/2.jpg" />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              <IconButton
+                size="large"
+                onClick={handleLoginModalOpen}
+                aria-label="account of current user"
+                aria-haspopup="true"
+                color="inherit"
+              >
+                <AccountCircleIcon />
+              </IconButton>
+            )}
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {settings.map((setting) => (
+                setting === 'Logout' ?
+                <Logout key={setting} />:
+                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+
+
+
+{/*           {user &&(
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -316,7 +358,9 @@ const MyNav=({onSearch, products})=> {
               ))}
             </Menu>
           </Box>
-          )}
+          )} */}
+
+
         </Toolbar>
       </Container>
     </AppBar>
