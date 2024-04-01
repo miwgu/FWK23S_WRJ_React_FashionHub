@@ -90,7 +90,7 @@ const ShoppingBag = ({ products, updateProducts, deleteProduct }) => {
     };
 
      
-    /* const handleCheckout = () => {
+  /*   const handleCheckout = () => {
         const loggedInUserData = JSON.parse(localStorage.getItem('loggedInUserData'));
         const userId = loggedInUserData.id;
         
@@ -106,9 +106,11 @@ const ShoppingBag = ({ products, updateProducts, deleteProduct }) => {
 
         navigate('/orderdetails');
         //clearShoppingBag();
-    }; */
+    };  */
 
-    const handleCheckout = async () => {
+
+    
+     const handleCheckout = async () => {
         if (!loggedIn) {
             navigate('/login');
             return;
