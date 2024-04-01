@@ -28,12 +28,16 @@ const OrderDetails = ({ updateProducts }) => {
         fetchUserDetails();
     }, []);
 
+    const orderDetails = JSON.parse(localStorage.getItem('orders')) || [];
+            console.log("Localstrage orders: ", orderDetails)
+            const lastOrder = orderDetails[orderDetails.length - 1];
+
     useEffect(() => {
         // Calculate total amount when userDetails is fetched
         if (userDetails) {
-            const orderDetails = JSON.parse(localStorage.getItem('orders')) || [];
-            console.log("Localstrage orders: ", orderDetails)
-            const lastOrder = orderDetails[orderDetails.length - 1];
+            //const orderDetails = JSON.parse(localStorage.getItem('orders')) || [];
+            //console.log("Localstrage orders: ", orderDetails)
+            //const lastOrder = orderDetails[orderDetails.length - 1];
             let total = 0;
             
             if (lastOrder) {
@@ -86,6 +90,7 @@ const OrderDetails = ({ updateProducts }) => {
                             My Information
                         </Typography>
                         {userDetails && (
+                            <>
                             <Box>
                                 <Typography variant="body1" gutterBottom>
                                     Your Name: {userDetails.firstname} {userDetails.lastname}
@@ -94,6 +99,26 @@ const OrderDetails = ({ updateProducts }) => {
                                     Email: {userDetails.email}
                                 </Typography>
                             </Box>
+
+                            <Box>
+                            <Typography variant="h4" gutterBottom>
+                                Invoice /Delivery address
+                            </Typography>
+                            <Typography variant="body1" gutterBottom>
+                            {userDetails.firstname}{" "}{userDetails.lastname}
+                            </Typography>
+                            <Typography variant="body1" gutterBottom>
+                            {userDetails.telephone}
+                            </Typography>
+                            <Typography variant="body1" gutterBottom>
+                            {userDetails.address}
+                            </Typography>  
+                            <Typography variant="body1" gutterBottom>
+                            {userDetails.postcode}{" "}{userDetails.city}
+                            </Typography>  
+                            </Box>
+
+                            </>
                         )}
 
                         {/* Render order details */}
@@ -127,7 +152,8 @@ const OrderDetails = ({ updateProducts }) => {
                         <Typography variant="h4" gutterBottom>
                             Total: {totalAmount} kr
                         </Typography>
-                        <Button variant="contained" color="primary" fullWidth onClick={handleOrderComplete}>
+                        {/* <Button variant="contained" color="primary" fullWidth onClick={handleOrderComplete}> */}
+                        <Button variant="contained" color="primary" fullWidth >
                             End of Purchase
                         </Button>
                     </Box>
