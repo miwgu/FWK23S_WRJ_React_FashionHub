@@ -23,6 +23,7 @@ import LoginModal from '../LoginModal';
 import Logout from '../Logout';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import Badge from '@mui/material/Badge';
+import { useNavigate } from "react-router-dom";
 
 
 const pages = ['Products', 'Pricing', 'Blog'];
@@ -68,29 +69,47 @@ const Search = styled('div')(({ theme }) => ({
     },
   }));
 
+ 
+
 const MyNav=({onSearch, products})=> {
-  const { loggedIn, user } = useContext(AuthContext);
+  const { loggedIn,setLoggedIn, user, setUser } = useContext(AuthContext);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] =useState('');
   const [totalQuantity, setTotalQuantity] = useState(0);
-  
+  //const navigate = useNavigate();
+
   const handleSearch = () => {
     onSearch(searchTerm);
   }
 
-   /* useEffect(() => {
-      const storedProducts = JSON.parse(localStorage.getItem('products')) || [];
-      console.log("NAV_PRO", products)
-        let total = 0;
-        storedProducts.forEach((product) => {
-            total += product.quantity || 0;
-        });
-        setTotalQuantity(total);
+  /* const isTokenExpired =() =>{
+    const tokenExp = JSON.parse(localStorage.getItem('loggedInUserData'));
+    if (!tokenExp || !tokenExp.exp) {
+      return true; // Token or expiration time not found, consider it expired
+    }
+
+    const currentTime = Math.floor(Date.now() / 1000);
+    console.log("CURRENT:",currentTime)
+    console.log("EXP:",tokenExp.exp)
+    return currentTime > parseInt(tokenExp.exp);
+  };
+ 
+
+    useEffect(() => {
+      if(isTokenExpired()){
+        setLoggedIn(false);
+        setUser(null);
+        localStorage.removeItem('loggedInUserData'); // Remove the logged-in user data from localStorage
+        localStorage.removeItem('access_token');//Remove the access token
+        navigate("/");
+        alert('Session expired. Please login again!')
+      }
         
-    }, [products]); */
-  
+    }, [loggedIn]); //Re-run this effect when loggedIn state changes
+ */
+    
     useEffect(() => {
       const handleShoppingBagUpdate = () => {
           // Update totalQuantity when shopping bag is updated
@@ -113,7 +132,24 @@ const MyNav=({onSearch, products})=> {
           window.removeEventListener('shoppingBagUpdated', handleShoppingBagUpdate);
       };
   }, []);
-  
+
+    useEffect(()=>{
+      const tokenInfo= () =>{
+        try{
+          const token = localStorage.getItem('access_token');
+          
+          setTokenInfo(tokenInfo);
+          
+          const currentTime = Math.floor(Date.now()/1000);
+          
+          
+        }catch{
+
+        }
+      }
+
+    },[])
+    
   
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);

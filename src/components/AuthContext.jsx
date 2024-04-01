@@ -42,7 +42,7 @@ export const AuthProvider = ({children}) => {
         }
     }; */
 
-    const login = async (email, password) =>{
+/*     const login = async (email, password) =>{
         try{
           const response = await axios.post('http://localhost:8080/login', {email,password});
           console.log('Response data:', response.data);
@@ -68,17 +68,74 @@ export const AuthProvider = ({children}) => {
             setError('INVALID USER OR PASSWORD');
             return false;
         }
-    }
+    } */
+
+    const login = async (email, password) => {
+        try {
+            const response = await axios.post('http://localhost:8080/login', { email, password });
+            const token = response.data;
+    
+            // Store the token in localStorage
+            localStorage.setItem('access_token', token);
+    
+            
+            // Set the logged-in state to true
+            setLoggedIn(true);
+            setError(null);
+    
+            return true;
+        } catch (error) {
+            setError('INVALID USER OR PASSWORD');
+            return false;
+        }
+    };
+    
+    const fetchLoginUser = async () => {
+        try {
+            // Get the JWT token from localStorage
+            const token = localStorage.getItem('access_token');
+    
+            // Check if the token is valid
+            if (!token) {
+                // If the token is missing or expired, handle it gracefully (e.g., log out the user)
+                handleLogout();
+                alert('Session expired. Please log in again.');
+                return null;
+            }
+    
+            // Fetch user data from the server using the token
+            const response = await axios.get('http://localhost:8080/customer/me', {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+    
+            // Extract user data from the response
+            const userData = response.data;
+    
+            // Update the user state with the fetched user data
+            setUser(userData);
+    
+            return userData;
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+    
+            // Handle the error gracefully (e.g., log out the user)
+            handleLogout();
+            alert('Session expired. Please log in again.');
+    
+            return null;
+        }
+    };
+    
 
     const handleLogout = () => {
         setLoggedIn(false);
         setUser(null); //old ''
-        localStorage.removeItem('loggedInUserData'); // Remove the logged-in user data from localStorage
+        //localStorage.removeItem('loggedInUserData'); // Remove the logged-in user data from localStorage
         localStorage.removeItem('access_token');//Remove the access token
         navigate("/login");
     };
 
-    const fetchLoginUser = async () =>{
+/*     const fetchLoginUser = async () =>{
          try{
             //get the JWT token from localStrage
             const token = localStorage.getItem('access_token');
@@ -95,7 +152,7 @@ export const AuthProvider = ({children}) => {
              }
                 //throw new Error('Failed to fetch data from backend');
             console.log('Fetching user data...');
-            const response = await axios.get('http://localhost:8080/customer/me',{
+            const response = await axios.get('http://localhost:8080/token-info',{
                 headers: { Authorization: `Bearer ${token}` }
             });
             console.log('Response:', response);
@@ -120,7 +177,7 @@ export const AuthProvider = ({children}) => {
             alert('3:Session expired. Please login again!');
             return null;
          }
-    };
+    }; */
 
     const value = {
         error,

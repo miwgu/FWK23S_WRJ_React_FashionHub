@@ -10,37 +10,17 @@ const LoginModal = ({ isOpen, onClose }) => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = async (event) => {
+   const handleLogin = async (event) => {
     event.preventDefault();
     const success = await login(email, password);
     if(success){
     await fetchLoginUser()
-    onClose(); // Close the modal after attempting to log in
-    navigate('/')
-    }
-  };
-
-
-/* 
-  const handleLogin = () => {
-    if (!username || !password) {
-      alert('Please fill in both username and password!');
-      return;
-    }
-
-    // Call the login function from AuthContext
-    login(username, password)
-    if(login){
-        onClose(); // Close the modal after attempting to log in
-        navigate('/')
     
-    }else {
-        alert('INVALID USER OR PASSWORD');
-        
+    navigate('/')
+    onClose(); // Close the modal after attempting to log in
     }
+  }; 
 
-      } */
-      
 
 
   const handleRegister = () =>{
