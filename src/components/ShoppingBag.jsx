@@ -6,10 +6,12 @@ import CardMedia from '@mui/material/CardMedia';
 import { Delete } from '@mui/icons-material';
 import { AuthContext } from './AuthContext';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const ShoppingBag = ({ products, updateProducts, deleteProduct }) => {
     const navigate = useNavigate();
-    const { loggedIn } = useContext(AuthContext);
+    const { user, loggedIn, fetchLoginUser } = useContext(AuthContext);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleGotoLogin = () => {
         navigate('/login'); // Navigate to the login page when the user clicks on the Login button
@@ -88,7 +90,7 @@ const ShoppingBag = ({ products, updateProducts, deleteProduct }) => {
     };
 
      
-    const handleCheckout = () => {
+    /* const handleCheckout = () => {
         const loggedInUserData = JSON.parse(localStorage.getItem('loggedInUserData'));
         const userId = loggedInUserData.id;
         
@@ -104,6 +106,42 @@ const ShoppingBag = ({ products, updateProducts, deleteProduct }) => {
 
         navigate('/orderdetails');
         //clearShoppingBag();
+    }; */
+
+    const handleCheckout = async () => {
+        if (!loggedIn) {
+            navigate('/login');
+            return;
+        }
+
+        setIsLoading(true);
+        
+        try {
+            await fetchLoginUser(); // Fetch user info after successful login
+            const response = await axios.get('http://localhost:8080/customer/me', {
+                headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
+            });
+
+            // Assuming response.data contains user information
+            const userData = response.data;
+
+            // Proceed with checkout logic
+            const shoppingBag = JSON.parse(localStorage.getItem('products')) || [];
+            const order = {
+                userId: userData.id,
+                products: shoppingBag
+            };
+            let orders = JSON.parse(localStorage.getItem('orders')) || [];
+            orders.push(order);
+            localStorage.setItem('orders', JSON.stringify(orders));
+
+            navigate('/orderdetails');
+        } catch (error) {
+            // Handle error
+            console.error('Error fetching user data:', error);
+            setIsLoading(false);
+            alert('Failed to fetch user data. Please try again.');
+        }
     };
 
 
