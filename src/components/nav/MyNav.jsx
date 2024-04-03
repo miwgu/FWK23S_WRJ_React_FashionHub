@@ -26,7 +26,10 @@ import Badge from '@mui/material/Badge';
 import { useNavigate } from "react-router-dom";
 
 
-const pages = ['Products', 'Pricing', 'Blog'];
+const pages = [
+  { name: 'Products', link: '/' },
+  { name: 'Shoppingbag', link: '/cart' }
+];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const Search = styled('div')(({ theme }) => ({
@@ -209,19 +212,21 @@ const MyNav=({onSearch, products})=> {
 
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
+              <Link to={page.link} key={page.name} style={{ textDecoration: 'none' }}>
               <Button
-                key={page}
+                key={page.name}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page}
+                {page.name}
               </Button>
+              </Link>
             ))}
           </Box>
 
           <Box sx={{ flexGrow: 1 }} />
 
-          <Search sx={{ display: { xs: 'none', md: 'flex' } }}>
+          <Search >
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
@@ -309,8 +314,10 @@ const MyNav=({onSearch, products})=> {
               onClose={handleCloseNavMenu}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem to={page.link} key={page.name} onClick={handleCloseNavMenu}>
+                  <Link to={page.link} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <Typography textAlign="center">{page.name}</Typography>
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>
