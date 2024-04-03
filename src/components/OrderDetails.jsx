@@ -10,23 +10,23 @@ const OrderDetails = ({ updateProducts }) => {
     const [totalAmount, setTotalAmount] = useState(0);
 
     useEffect(() => {
-        const fetchUserDetails = async () => {
-            try {
-                // Fetch user details from the backend
-                const response = await axios.get('http://localhost:8080/customer/me', {
-                    headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
-                });
-                setUserDetails(response.data);
-                setIsLoading(false);
-            } catch (error) {
-                console.error('Error fetching user data:', error);
-                setIsLoading(false);
-            }
-        };
-
         // Fetch user details when the component mounts
         fetchUserDetails();
     }, []);
+
+    const fetchUserDetails = async () => {
+        try {
+            // Fetch user details from the backend
+            const response = await axios.get('http://localhost:8080/customer/me', {
+                headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
+            });
+            setUserDetails(response.data);
+            setIsLoading(false);
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+            setIsLoading(false);
+        }
+    };
 
     const orderDetails = JSON.parse(localStorage.getItem('orders')) || [];
             console.log("Localstrage orders: ", orderDetails)
@@ -49,7 +49,7 @@ const OrderDetails = ({ updateProducts }) => {
         }
     }, [userDetails]);
 
-   // I need to make backend
+ 
      const handleOrderComplete = async () => {
         try {
             // lastOrder.products in orderDetails(locakStrage, 'orders')
