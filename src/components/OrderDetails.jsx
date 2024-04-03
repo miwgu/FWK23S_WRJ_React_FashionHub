@@ -50,15 +50,18 @@ const OrderDetails = ({ updateProducts }) => {
     }, [userDetails]);
 
    // I need to make backend
-/*     const handleOrderComplete = async () => {
+     const handleOrderComplete = async () => {
         try {
-            // Assuming lastOrder.products contains the list of products in the last order
-            const lastOrder = JSON.parse(localStorage.getItem('orders')) || [];
-            const order = {
+            // lastOrder.products in orderDetails(locakStrage, 'orders')
+           
+            const userId = userDetails.id;//Backend customerId
+            const products ={products: lastOrder.products} //convert the lastOrder.products array into a JavaScript object
+            
+            /* const order = {
                 userId: userDetails.id,
                 products: lastOrder.products
-            };
-            await axios.post('http://localhost:8080/orders', order, {
+            }; */
+            await axios.post(`http://localhost:8080/orders/add/${userId}`, products, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
             });
             clearShoppingBag();
@@ -67,7 +70,7 @@ const OrderDetails = ({ updateProducts }) => {
             console.error('Error placing order:', error);
             alert('Failed to place order. Please try again.');
         }
-    }; */
+    }; 
 
     const clearShoppingBag = () => {
         localStorage.removeItem('products');
@@ -152,8 +155,7 @@ const OrderDetails = ({ updateProducts }) => {
                         <Typography variant="h4" gutterBottom>
                             Total: {totalAmount} kr
                         </Typography>
-                        {/* <Button variant="contained" color="primary" fullWidth onClick={handleOrderComplete}> */}
-                        <Button variant="contained" color="primary" fullWidth >
+                        <Button variant="contained" color="primary" fullWidth onClick={handleOrderComplete}>
                             End of Purchase
                         </Button>
                     </Box>
