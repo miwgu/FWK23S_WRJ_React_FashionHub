@@ -3,68 +3,15 @@ import { Button, Container, TextField, Typography, Grid } from '@mui/material';
 import {AuthContext} from "./AuthContext.jsx";
 import { useNavigate } from 'react-router-dom';
 
-//import { useHistory } from 'react-router-dom'; 
-
 const Login_Page = () => {
   const {login, error, fetchLoginUser} = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  //const history = useHistory(); 
   const navigate = useNavigate();
 
- /*  const handleLogin = (event) => {
-    
-      if (!username || !password) {
-        alert('Please fill in both username and password!');
-        return;
-      } 
-      
-      console.log(login(username, password))
-      console.log(login)
-     if(login ){
-        navigate('/');
-        
-        
-        
-     }else {
-        event.preventDefault();
-        navigate('/login');
-      
-     }
-
-  }; */
-
-/*   const handleLogin = async () => {
-    if (!username || !password) {
-      alert('Please fill in both username and password!');
-      return;
-    }
-    
-    await login(username, password); 
-    navigate('/');
-  };
-*/
   const handleRegister = () =>{
     navigate('/signup')
   } 
-
-  /* const handleLogin = (event) => {
-    event.preventDefault();
-    const success = login(email, password);
-    if(success){
-      navigate('/cart');
-    }
-  };
- */
-
-/*   const handleLogin = async (event) => {
-    event.preventDefault();
-    const success = await login(email, password);
-    if (success) {
-      await fetchLoginUser(); // Fetch user info after successful login
-      navigate('/cart'); // Navigate to the desired page after successful login
-    }
-  }; */
 
   const handleLogin = async (event) => {
     event.preventDefault();

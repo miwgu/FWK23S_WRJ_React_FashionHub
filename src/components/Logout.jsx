@@ -9,8 +9,7 @@ const Logout = () => {
 
     const handleLogout = () => {
         setLoggedIn(false);
-        setUser(null); //old ''
-        //localStorage.removeItem('loggedInUserData'); // Remove the logged-in user data from localStorage
+        setUser(null); 
         localStorage.removeItem('access_token');//Remove the access token
         navigate("/");
     };

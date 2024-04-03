@@ -1,9 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-
-//import Image from 'react-bootstrap/Image';
-//import { getMealById } from '../api/getMeals';
 import { Container, Grid, Box, Button } from '@mui/material';
 
 
@@ -40,25 +37,6 @@ const Details = ({addProduct}) => {
     .finally(()=>{
         setLoading(false);
     })
-/*
-    const fetchData = async() =>{
-      try{
-        const mealDataById = await getMealById(mealId);
-        setMealdetails(mealDataById);
-        setError(null);
-
-      } catch (error){
-        console.error('Error fetching a meal by ID: ', error)
-        setError(error.message);
-        setdetails(null);
-
-      } finally{
-        setLoading(false);
-      }
-    } ;
-
-    fetchData();
-*/
    },[id]);
 
 

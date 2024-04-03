@@ -4,8 +4,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const OrderComplete = () => {
-   //const loggedInUserData = JSON.parse(localStorage.getItem('loggedInUserData'));
-   //const { firstname, lastname, email } = loggedInUserData || {};
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
     const [userDetails, setUserDetails] = useState(null);

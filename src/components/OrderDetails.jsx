@@ -9,7 +9,7 @@ const OrderDetails = ({ updateProducts }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [userDetails, setUserDetails] = useState(null);
     const [totalAmount, setTotalAmount] = useState(0);
-    const { user, loggedIn, fetchLoginUser } = useContext(AuthContext);
+    const { loggedIn, fetchLoginUser } = useContext(AuthContext);
 
     useEffect(() => {
         // Fetch user details when the component mounts
@@ -37,9 +37,6 @@ const OrderDetails = ({ updateProducts }) => {
     useEffect(() => {
         // Calculate total amount when userDetails is fetched
         if (userDetails) {
-            //const orderDetails = JSON.parse(localStorage.getItem('orders')) || [];
-            //console.log("Localstrage orders: ", orderDetails)
-            //const lastOrder = orderDetails[orderDetails.length - 1];
             let total = 0;
             
             if (lastOrder) {
@@ -67,10 +64,6 @@ const OrderDetails = ({ updateProducts }) => {
             // lastOrder.products in orderDetails(localStrage, 'orders')
             const products ={products: lastOrder.products} //convert the lastOrder.products array into a JavaScript object
             
-            /* const order = {
-                userId: userDetails.id,
-                products: lastOrder.products
-            }; */
             await axios.post(`http://localhost:8080/orders/add/${userId}`, products, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
             });

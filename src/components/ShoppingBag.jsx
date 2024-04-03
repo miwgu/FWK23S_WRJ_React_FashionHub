@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Box, Button, IconButton, Card, Container, Grid, MenuItem, Select, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { Delete } from '@mui/icons-material';
 import { AuthContext } from './AuthContext';
@@ -28,13 +27,6 @@ const ShoppingBag = ({ products, updateProducts, deleteProduct }) => {
         initializeQuantities();
     }, [products]);
 
-    /* useEffect(()=>{
-        const storedProducts = JSON.parse(localStorage.getItem('products')) || [];
-        if (storedProducts.length === 0) {
-            setShoppingBagEmpty(true);
-        }
-    },[products])
- */
     const initializeQuantities = () => {
         const storedProducts = JSON.parse(localStorage.getItem('products')) || [];
         console.log("Stored products from localStorage:", storedProducts);
@@ -47,11 +39,6 @@ const ShoppingBag = ({ products, updateProducts, deleteProduct }) => {
 
         setQuantities(quantitiesObject);
     };
-
-    /*  The "Current quantities" log shows the correct quantities before the update.
-        The "Updated quantities" log shows the updated quantities as expected.
-        However, the quantities in the local storage (localStorage) are not consistent with the updated quantities.  
-        -> I changed rad 64, Now updated quantity by droppdown  and  Update state in App.jsx component using the passed function*/ 
         
     const handleChangeQuantity = (id, quantity) => {
 
@@ -59,11 +46,6 @@ const ShoppingBag = ({ products, updateProducts, deleteProduct }) => {
 
         //Update local state
         //By using the callback form of setQuantities, ensuring that you're working with the most up-to-date state when updating it.
-        /* setQuantities(prevQuantities => {
-        const updatedQuantities = { ...prevQuantities, [idMeal]: quantity };
-        console.log("Updated quantities:", updatedQuantities);
-        return updatedQuantities;
-        }); */
         setQuantities((prevQuantities)=>({
             ...prevQuantities,
             [id]:quantity
@@ -89,27 +71,6 @@ const ShoppingBag = ({ products, updateProducts, deleteProduct }) => {
         window.dispatchEvent(new Event('shoppingBagUpdated'));
     };
 
-     
-  /*   const handleCheckout = () => {
-        const loggedInUserData = JSON.parse(localStorage.getItem('loggedInUserData'));
-        const userId = loggedInUserData.id;
-        
-        const shoppingBag = JSON.parse(localStorage.getItem('products')) || [];
-        const order = {
-            userId: userId,
-            products: shoppingBag
-        };
-        let orders = JSON.parse(localStorage.getItem('orders')) || [];
-        orders.push(order);
-        localStorage.setItem('orders', JSON.stringify(orders));
-        // Optionally clear the shopping bag after checkout
-
-        navigate('/orderdetails');
-        //clearShoppingBag();
-    };  */
-
-
-    
      const handleCheckout = async () => {
         if (!loggedIn) {
             navigate('/login');
@@ -146,18 +107,11 @@ const ShoppingBag = ({ products, updateProducts, deleteProduct }) => {
         }
     };
 
-
-     // It is better to move this to when you click End pf Purchase
-    /*
-    const clearShoppingBag = () => {
-        localStorage.removeItem('products');
-    };*/ 
-
-
-
-   //const price = 100;
-
     const totalAmount  = products.reduce((total, product) => total + (product.price * quantities[product.id]), 0);
+
+    if (isLoading) {
+        return <Typography>Loading...</Typography>;
+    }
 
     return (
         <Container>
