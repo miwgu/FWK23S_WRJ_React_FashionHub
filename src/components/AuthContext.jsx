@@ -20,9 +20,10 @@ export const AuthProvider = ({children}) => {
 
     useEffect(() => {
         // Check if there is a logged-in user in localStorage on component mount
-        const loggedInUser = JSON.parse(localStorage.getItem('loggedInUserData'));
-        if (loggedInUser) {
-          setUser(loggedInUser);
+        //const loggedInUser = JSON.parse(localStorage.getItem('loggedInUserData'));
+        fetchLoginUser()
+        if (fetchLoginUser()) {
+          //setUser(loggedInUser);
           setLoggedIn(true);
         }
       }, []);

@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Box, Button, Container, Grid, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { AuthContext } from './AuthContext';
 
 const OrderDetails = ({ updateProducts }) => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
     const [userDetails, setUserDetails] = useState(null);
     const [totalAmount, setTotalAmount] = useState(0);
+    const { user, loggedIn, fetchLoginUser } = useContext(AuthContext);
 
     useEffect(() => {
         // Fetch user details when the component mounts
@@ -52,9 +54,17 @@ const OrderDetails = ({ updateProducts }) => {
  
      const handleOrderComplete = async () => {
         try {
-            // lastOrder.products in orderDetails(locakStrage, 'orders')
+            if (!loggedIn) {
+                navigate('/login');
+                return;
+            }
+    
+            setIsLoading(true);
+
+            await fetchLoginUser(); // Fetch user info after successful login
            
             const userId = userDetails.id;//Backend customerId
+            // lastOrder.products in orderDetails(localStrage, 'orders')
             const products ={products: lastOrder.products} //convert the lastOrder.products array into a JavaScript object
             
             /* const order = {
