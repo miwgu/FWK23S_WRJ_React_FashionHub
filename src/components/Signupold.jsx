@@ -3,12 +3,10 @@ import { TextField, Button, Grid, Container, Typography, Alert } from '@mui/mate
 import { AuthContext } from './AuthContext';
 import mockUserData from './mockData/customer.json';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
 const Signup = () => {
   const { setUser } = useContext(AuthContext);
   const navigate = useNavigate();
-  //all attributes in the formData object are essential
   const [formData, setFormData] = useState({
     firstname: '',
     lastname: '',
@@ -44,21 +42,22 @@ const Signup = () => {
     localStorage.setItem('mockUserData', JSON.stringify(updatedMockData));
   };
   
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
   
-    try{
-     const response = await axios.post('http://localhost:8080/customer/signup', formData);
-     console.log("Response:", response.data);
-      
+    addUserToMockData(formData);
     setShowAlert(true); // Show alert message
+
+    // Navigate to the "/login" route after successful signup
+    /* setTimeout(() => {
+      setShowAlert(false); // Hide alert message after 3 seconds
+      navigate("/login"); // Navigate to "/login" route
+    }, 3000); */
     alert("You successfully sign up!")
     navigate("/login")
-
+    //addUser(formData);
+    //setUser(formData);
     console.log("You successfully sign up!")
-  } catch(error){
-    console.error('Error', error)
-  }
   };
 
 
