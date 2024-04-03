@@ -1,12 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { TextField, Button, Grid, Container, Typography, Alert } from '@mui/material';
-import { AuthContext } from './AuthContext';
-import mockUserData from './mockData/customer.json';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Signup = () => {
-  const { setUser } = useContext(AuthContext);
+ 
   const navigate = useNavigate();
   //all attributes in the formData object are essential
   const [formData, setFormData] = useState({
@@ -29,21 +27,6 @@ const Signup = () => {
     });
   };
 
-  const addUserToMockData = (newUser) => {
-    // Find max id from mockUserData to generate a unique id for the new user
-    const maxId = Math.max(...mockUserData.map(user => user.id));
-    console.log('maxId:', maxId); 
-    const newId = maxId + 1;
-    console.log('newId:', newId);
-    // This is object and assign the new id to the new user 
-    const userWithId = { ...newUser, id: newId };
-    console.log('userWithId:', userWithId);
-    // Add the user with the new id to the mockUserData
-    const updatedMockData = [...mockUserData, userWithId];
-    console.log('updatedMockData:', updatedMockData); 
-    localStorage.setItem('mockUserData', JSON.stringify(updatedMockData));
-  };
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
   
