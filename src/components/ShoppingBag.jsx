@@ -71,7 +71,7 @@ const ShoppingBag = ({ products, updateProducts, deleteProduct }) => {
         window.dispatchEvent(new Event('shoppingBagUpdated'));
     };
 
-     const handleCheckout = async () => {
+    /*  const handleCheckout = async () => {
         if (!loggedIn) {
             navigate('/login');
             return;
@@ -81,15 +81,15 @@ const ShoppingBag = ({ products, updateProducts, deleteProduct }) => {
         
         try {
             await fetchLoginUser(); // Fetch user info after successful login
-            /* const response = await axios.get('http://localhost:8080/customer/me', {
+             const response = await axios.get('http://localhost:8080/customer/me', {
                 headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
             });
 
-            const userData = response.data; */
+            const userData = response.data;
 
             const shoppingBag = JSON.parse(localStorage.getItem('products')) || [];
             const order = {
-                userId: user.id,  //userData.id
+                userId: userData.id,  //userData.id
                 products: shoppingBag
             };
             let orders = JSON.parse(localStorage.getItem('orders')) || [];
@@ -102,6 +102,29 @@ const ShoppingBag = ({ products, updateProducts, deleteProduct }) => {
             console.error('Error fetching user data:', error);
             setIsLoading(false);
         }
+    }; */
+
+    const handleCheckout = async () => {
+        if (!loggedIn) {
+            setIsLoading(false);
+            navigate('/login');
+            return;
+        } else{
+            await fetchLoginUser(); // Fetch user info after successful login
+         
+            const shoppingBag = JSON.parse(localStorage.getItem('products')) || [];
+            const order = {
+                userId: user.id,  //userData.id
+                products: shoppingBag
+            };
+            let orders = JSON.parse(localStorage.getItem('orders')) || [];
+            orders.push(order);
+            localStorage.setItem('orders', JSON.stringify(orders));
+
+            navigate('/orderdetails');
+        }
+        setIsLoading(true);
+
     };
 
     const totalAmount  = products.reduce((total, product) => total + (product.price * quantities[product.id]), 0);
