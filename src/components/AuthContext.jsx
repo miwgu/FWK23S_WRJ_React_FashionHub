@@ -48,7 +48,7 @@ export const AuthProvider = ({children}) => {
             if (!token) {
                 // If the token is missing or expired, handle it gracefully (e.g., log out the user)
                 handleLogout();
-                alert('Session expired. Please log in again.');
+                alert('1.Session expired. Please log in again.');
                 return null;
             }
     
@@ -68,7 +68,7 @@ export const AuthProvider = ({children}) => {
             console.error('Error fetching user data:', error);
    
             handleLogout();
-            alert('Session expired. Please log in again.');
+            alert('2.Session expired. Please log in again.');
     
             return null;
         }
