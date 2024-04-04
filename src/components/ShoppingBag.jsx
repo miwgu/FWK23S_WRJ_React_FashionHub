@@ -71,39 +71,6 @@ const ShoppingBag = ({ products, updateProducts, deleteProduct }) => {
         window.dispatchEvent(new Event('shoppingBagUpdated'));
     };
 
-    /*  const handleCheckout = async () => {
-        if (!loggedIn) {
-            navigate('/login');
-            return;
-        }
-
-        setIsLoading(true);
-        
-        try {
-            await fetchLoginUser(); // Fetch user info after successful login
-             const response = await axios.get('http://localhost:8080/customer/me', {
-                headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
-            });
-
-            const userData = response.data;
-
-            const shoppingBag = JSON.parse(localStorage.getItem('products')) || [];
-            const order = {
-                userId: userData.id,  //userData.id
-                products: shoppingBag
-            };
-            let orders = JSON.parse(localStorage.getItem('orders')) || [];
-            orders.push(order);
-            localStorage.setItem('orders', JSON.stringify(orders));
-
-            navigate('/orderdetails');
-        } catch (error) {
-
-            console.error('Error fetching user data:', error);
-            setIsLoading(false);
-        }
-    }; */
-
     const handleCheckout = async () => {
         if (!loggedIn) {
             setIsLoading(false);
@@ -125,7 +92,7 @@ const ShoppingBag = ({ products, updateProducts, deleteProduct }) => {
             let orders = JSON.parse(localStorage.getItem('orders')) || [];
             orders.push(order);
             localStorage.setItem('orders', JSON.stringify(orders));
-            console.log("USER2", user)
+
             navigate('/orderdetails');
         }
         setIsLoading(true);

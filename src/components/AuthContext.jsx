@@ -68,7 +68,7 @@ export const AuthProvider = ({children}) => {
         } catch (error) {
             console.error('Error fetching user data:', error);
             handleLogout();
-            alert('2.Session expired. Please log in again.');
+            alert('Session expired. Please log in again.');
             return null;
         }
     };

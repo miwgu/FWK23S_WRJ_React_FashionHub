@@ -50,32 +50,6 @@ const OrderDetails = ({ updateProducts }) => {
     }, [userDetails]);//userDetails
 
  
-     /* const handleOrderComplete = async () => {
-        try {
-            if (!loggedIn) {
-                navigate('/login');
-                return;
-            }
-    
-            setIsLoading(true);
-
-            await fetchLoginUser(); // Fetch user info after successful login
-           
-            const userId = userDetails.id;//Backend customerId userDetails.id
-            // lastOrder.products in orderDetails(localStrage, 'orders')
-            const products ={products: lastOrder.products} //convert the lastOrder.products array into a JavaScript object
-            
-            await axios.post(`http://localhost:8080/orders/add/${userId}`, products, {
-                headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
-            });
-            clearShoppingBag();
-            navigate('/ordercomplete');
-        } catch (error) {
-            console.error('Error placing order:', error);
-            alert('Failed to place order. Please try again.');
-        }
-    };  */
-
     const handleOrderComplete = async () => {
         
             if (!loggedIn) {
