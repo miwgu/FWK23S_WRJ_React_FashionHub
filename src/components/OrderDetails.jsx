@@ -9,14 +9,15 @@ const OrderDetails = ({ updateProducts }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [userDetails, setUserDetails] = useState(null);
     const [totalAmount, setTotalAmount] = useState(0);
-    const { loggedIn, fetchLoginUser } = useContext(AuthContext);
+    const { loggedIn, user, fetchLoginUser } = useContext(AuthContext);
 
     useEffect(() => {
         // Fetch user details when the component mounts
         fetchUserDetails();
+        //fetchLoginUser();
     }, []);
 
-    const fetchUserDetails = async () => {
+     const fetchUserDetails = async () => {
         try {
             // Fetch user details from the backend
             const response = await axios.get('http://localhost:8080/customer/me', {
@@ -28,7 +29,7 @@ const OrderDetails = ({ updateProducts }) => {
             console.error('Error fetching user data:', error);
             setIsLoading(false);
         }
-    };
+    }; 
 
     const orderDetails = JSON.parse(localStorage.getItem('orders')) || [];
             console.log("Localstrage orders: ", orderDetails)
@@ -36,7 +37,7 @@ const OrderDetails = ({ updateProducts }) => {
 
     useEffect(() => {
         // Calculate total amount when userDetails is fetched
-        if (userDetails) {
+        if (userDetails) { //userDetails
             let total = 0;
             
             if (lastOrder) {
@@ -46,10 +47,10 @@ const OrderDetails = ({ updateProducts }) => {
             }
             setTotalAmount(total);
         }
-    }, [userDetails]);
+    }, [userDetails]);//userDetails
 
  
-     const handleOrderComplete = async () => {
+     /* const handleOrderComplete = async () => {
         try {
             if (!loggedIn) {
                 navigate('/login');
@@ -60,7 +61,7 @@ const OrderDetails = ({ updateProducts }) => {
 
             await fetchLoginUser(); // Fetch user info after successful login
            
-            const userId = userDetails.id;//Backend customerId
+            const userId = userDetails.id;//Backend customerId userDetails.id
             // lastOrder.products in orderDetails(localStrage, 'orders')
             const products ={products: lastOrder.products} //convert the lastOrder.products array into a JavaScript object
             
@@ -73,7 +74,27 @@ const OrderDetails = ({ updateProducts }) => {
             console.error('Error placing order:', error);
             alert('Failed to place order. Please try again.');
         }
-    }; 
+    };  */
+
+    const handleOrderComplete = async () => {
+        
+            if (!loggedIn) {
+                setIsLoading(false);
+                navigate('/login');
+                return;
+            } else{
+                await fetchLoginUser(); // Fetch user info after successful login
+                const userId = user.id
+                const products ={products: lastOrder.products}
+                await axios.post(`http://localhost:8080/orders/add/${userId}`, products, {
+                headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
+            });
+            clearShoppingBag();
+            navigate('/ordercomplete');
+            }
+    
+            setIsLoading(true);
+    };
 
     const clearShoppingBag = () => {
         localStorage.removeItem('products');

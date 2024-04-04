@@ -109,22 +109,26 @@ const ShoppingBag = ({ products, updateProducts, deleteProduct }) => {
             setIsLoading(false);
             navigate('/login');
             return;
-        } else{
+        } else{            
             await fetchLoginUser(); // Fetch user info after successful login
-         
+
+            const response = await axios.get('http://localhost:8080/customer/me', {
+                headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
+            });
+            const userData = response.data;
+
             const shoppingBag = JSON.parse(localStorage.getItem('products')) || [];
             const order = {
-                userId: user.id,  //userData.id
+                userId: userData.id, 
                 products: shoppingBag
             };
             let orders = JSON.parse(localStorage.getItem('orders')) || [];
             orders.push(order);
             localStorage.setItem('orders', JSON.stringify(orders));
-
+            console.log("USER2", user)
             navigate('/orderdetails');
         }
         setIsLoading(true);
-
     };
 
     const totalAmount  = products.reduce((total, product) => total + (product.price * quantities[product.id]), 0);
