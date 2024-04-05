@@ -24,6 +24,8 @@ import Logout from '../Logout';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import Badge from '@mui/material/Badge';
 import { useNavigate } from "react-router-dom";
+import Logo from '../../assets/Logo.png';
+import './MyNav.css'
 
 
 const pages = [
@@ -193,6 +195,7 @@ const MyNav=({onSearch, products})=> {
             <MenuIcon />
           </IconButton> */}
           <Typography
+            className='dosis-logo'
             variant="h6"
             noWrap
             component={Link}
@@ -207,7 +210,12 @@ const MyNav=({onSearch, products})=> {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            <img
+            src={Logo}
+            alt={'Oskar&Lotta_Logo'}
+            style={{height:'70px'}}
+          />
+            Oskar&Lotta
           </Typography>
 
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
