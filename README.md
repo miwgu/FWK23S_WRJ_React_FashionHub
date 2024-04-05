@@ -18,7 +18,7 @@ npm install   npm run dev
 
 ## Backnd (JWT)
 BreadcrumbsFWK23S_WRJ_Backend_Node.js_FashionHub
--Session expiration time in JWT (JSON Web Token) is set to 15 seconds
+-Session expiration time in JWT (JSON Web Token) is set to 30 seconds
 
 ## Log in / Sign up
 - customer1 email:miwa.g@example.com  password:1234
