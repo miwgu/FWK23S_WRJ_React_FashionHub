@@ -46,7 +46,6 @@ export const AuthProvider = ({children}) => {
     
             // Check if the token is valid
             if (!token) {
-                // If the token is missing or expired, handle it gracefully (e.g., log out the user)
                 handleLogout();
                 //alert('1.Session expired. Please log in again.');
                 console.log("Session expired")
